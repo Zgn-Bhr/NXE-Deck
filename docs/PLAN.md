@@ -31,7 +31,8 @@ Goal: ship `NXE Deck/` as a CSS Loader theme implementing Concepts B (home), C (
 - [x] **5t. v0.9.4.** "Go to Library" pivots at the games' centre height (its box is 201px vs the games' 253px with the label strip, so it shrank around a point 26px higher and sat above the depth line). Steam's generic confirmation dialog (exit game, uninstall, …; `gamepaddialog_ModalPosition > GamepadDialogContent`) themed in `dialogs.css`: dark panel, accent-band title, keys.
 - [ ] **5u. Second hardware pass (next).** `TESTING.md` again, focusing on the Library, the Steam menu and Quick Access (not yet seen on hardware), depth scrolling, and the Floor line.
 - [ ] **6. Open items.** C.6 scrim (find Steam's backdrop in the live DOM). Optional case-band artwork (specs in `TESTING.md`).
-- [ ] **7. v1.0.0 release.** Repo prepared for GitHub: README, MIT licence, changelog, dev notes in `docs/`; `options/sources.css` ships neutral and `deploy.sh` writes the personal copy onto the Deck only. Still to do: Deck screenshots, public repo and release, DeckThemes submission (from your account).
+- [x] **7. v1.0.0 release.** Public repo [Zgn-Bhr/NXE-Deck](https://github.com/Zgn-Bhr/NXE-Deck) with README, MIT licence, changelog, Deck screenshots and dev notes in `docs/`; release v1.0.0 with the zip. `options/sources.css` ships neutral, and `deploy.sh` writes the personal copy onto the Deck only.
+- [ ] **8. DeckThemes store.** Submit via Git (subfolder `NXE Deck`, preview `docs/screenshots/home.jpg`) from your account. After approval, check that the store install keeps the folder name `NXE Deck` (fonts, wallpaper) and update the README's install section.
 - [ ] **Later.** Decky plugin for C.1 (avatar and name in the gamercard) and Concept A (channel home).
 
 ## Theme options

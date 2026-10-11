@@ -47,20 +47,14 @@ A [CSS Loader](https://github.com/DeckThemes/SDH-CssLoader) theme for the Steam 
 
 ## Install
 
-### From the DeckThemes store
-
-1. Press `…` to open Quick Access. Go to **Decky → CSS Loader** and open the theme store.
-2. Search for **NXE Deck** and install it.
-3. Back in CSS Loader, turn **NXE Deck** on. Turn off other system-wide themes so they don't fight over the same elements.
-
-### Manually, from GitHub
+> **Coming soon to the DeckThemes store.** NXE Deck is being prepared for CSS Loader's built-in theme store, so you'll be able to install and update it from your Deck. Until then, install it from GitHub as below.
 
 1. Download `NXE-Deck-<version>.zip` from the [latest release](https://github.com/Zgn-Bhr/NXE-Deck/releases/latest).
 2. In Desktop Mode, extract it into `/home/deck/homebrew/themes/`. You should end up with `/home/deck/homebrew/themes/NXE Deck/theme.json`.
    The folder name must be exactly `NXE Deck`, because the fonts and the default wallpaper are loaded from that path.
-3. Go back to Game Mode. In CSS Loader, refresh the theme list and turn **NXE Deck** on.
+3. Go back to Game Mode. In CSS Loader, refresh the theme list and turn **NXE Deck** on. Turn off other system-wide themes so they don't fight over the same elements.
 
-**Updating manually:** move the old `NXE Deck` folder out of `themes` before you extract the new one. Otherwise the file manager may create `NXE Deck (1)`, and that copy won't load. Renaming the old folder isn't enough, because CSS Loader loads every folder in `themes`.
+**Updating:** move the old `NXE Deck` folder out of `themes` before you extract the new one. Otherwise the file manager may create `NXE Deck (1)`, and that copy won't load. Renaming the old folder isn't enough, because CSS Loader loads every folder in `themes`.
 
 ## Options
 
