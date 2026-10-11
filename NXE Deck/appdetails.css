@@ -1,0 +1,378 @@
+/* NXE Deck: game page skin (tab: bigpicture). "Game page skin" checkbox, on by default.
+   Not part of the design handoff: it carries the Library look onto a game's
+   details page. Structure read live from a Deck (CEF, October 2026):
+   appdetails_Container > ScrollContainer > InnerContainer > [Header (hero art),
+   AppDetailsOverviewPanel > appdetailsoverview_Container > [Backdrop,
+   AppDetailsRoot > [PlaySection, AppDetailsContainer > GamepadTabbedPage]]].
+
+   Steam's text stays white, so everything sits on dark or translucent dark.
+   Every rule is scoped under .appdetails_Container, except the game's controller
+   settings page at the end (its own route). */
+
+/* ---------- Background ----------
+   The scroller paints the page. Steam's is navy plus a flipped, blurred copy of
+   the hero art; here the Library's dusk sky (--nxe-library-bg, which follows
+   the Background option) and no blurred copy. The scroller's own background
+   doesn't move with its content, so the sky stays put while the hero scrolls. */
+
+.appdetails_Container .appdetails_ScrollContainer {
+  background: var(--nxe-library-bg) !important;
+}
+
+.appdetails_Container .sharedappdetailsheader_ImgBlurBackdrop {
+  display: none !important;
+}
+
+/* Below the hero: drop Steam's dark wash, draw an accent line and a soft shadow. */
+.appdetails_Container .basicappdetailssectionstyler_AppDetailsRoot {
+  background: transparent !important;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--nxe-accent) 75%, transparent),
+    inset 0 14px 16px -14px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* ---------- Play button ----------
+   Steam keeps it grey until focused, then green for Play and blue for other
+   actions (install, update, stream). Those meanings stay; the NXE gloss is laid
+   over whichever colour Steam sets, so only background-image is replaced. */
+
+.appdetails_Container .basicappdetailssectionstyler_AppActionButton {
+  border-radius: 5px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+}
+
+.appdetails_Container .appactionbutton_ButtonChild {
+  border-radius: 5px !important;
+}
+
+.appdetails_Container .appactionbutton_ButtonChild:is(.gpfocus, :focus) {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(0, 0, 0, 0.16) 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.4) !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Controller, settings and favourite buttons, and Stop while a game runs:
+   dark glossy keys, the silver bar when focused. */
+.appdetails_Container :is(.appdetailsplaysection_MenuButton, .appactionbutton_ShutdownAppButton) {
+  border-radius: 5px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+}
+
+.appdetails_Container :is(.appdetailsplaysection_MenuButton, .appactionbutton_ShutdownAppButton):is(.gpfocus, :focus) {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.appdetails_Container .appactionbutton_ShutdownAppButton.appactionbutton_ForceShutdownButton:is(.gpfocus, :focus) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.18) 100%), var(--nxe-b-red) !important;
+  color: #fff !important;
+}
+
+.appdetails_Container .appdetailsplaysection_PlayBarGameName,
+.appdetails_Container .appdetailsplaysection_GameStatsSection {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- Tabs (Activity, Your Stuff, Community, Game Info) ----------
+   As in the Library: silver bar for the selected tab, accent ring on focus, and
+   a graphite band with an accent line once the row sticks under the top bar. */
+
+.appdetails_Container .gamepadtabbedpage_TabHeaderRowWrapper::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 45%),
+    linear-gradient(180deg, rgba(22, 25, 28, 0.82) 0%, rgba(14, 16, 18, 0.9) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow:
+    inset 0 -1px 0 color-mix(in srgb, var(--nxe-accent) 70%, transparent),
+    0 4px 10px rgba(0, 0, 0, 0.35) !important;
+}
+
+.appdetails_Container .gamepadtabbedpage_Tab {
+  height: auto !important;
+  max-height: none !important;
+  padding: 5px 14px !important;
+  border-radius: 15px !important;
+  color: #dcdedf !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.appdetails_Container .gamepadtabbedpage_Tab.gamepadtabbedpage_Selected {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+  text-shadow: none;
+}
+
+.appdetails_Container .gamepadtabbedpage_Tab.gpfocus {
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 0 0 3px #fff, 0 3px 7px rgba(0, 0, 0, 0.35) !important;
+}
+
+.appdetails_Container .gamepadtabbedpage_Tab.gpfocus:not(.gamepadtabbedpage_Selected) {
+  background: #fff !important;
+  color: var(--nxe-ink) !important;
+  text-shadow: none;
+}
+
+.appdetails_Container .gamepadtabbedpage_Glyphs {
+  opacity: 0.55 !important;
+}
+
+.appdetails_Container .gamepadtabbedpage_Glyphs.gamepadtabbedpage_Show {
+  opacity: 1 !important;
+}
+
+/* ---------- Sections ---------- */
+
+.appdetails_Container .appdetailssectionheader_LabelText {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+/* Activity feed: day labels and their rule, then the event cards. A focused card
+   is marked by Steam's own focus ring, which is left alone. */
+.appdetails_Container .appactivityday_AppActivityDate {
+  color: rgba(255, 255, 255, 0.78) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.appdetails_Container .appactivityday_Rule {
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4)) !important;
+}
+
+.appdetails_Container .appactivityday_PartnerEvent {
+  border-radius: 4px;
+  background: var(--nxe-card) !important;
+  box-shadow: var(--nxe-card-shadow) !important;
+}
+
+.appdetails_Container .appactivityday_PartnerEvent > [role='button'] {
+  border-radius: 4px;
+  background: transparent !important;
+}
+
+/* "Say something about this game…": a recessed field; Steam's white focus stays. */
+.appdetails_Container .posttextentry_PostTextEntry .posttextentry_PostTextEntryArea:not(:focus) {
+  background: rgba(0, 0, 0, 0.3) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Panels Steam paints flat navy or grey: dark glossy cards. */
+.appdetails_Container :is(
+  .appdetailsachievementssection_InnerContainer,
+  .appdetailssection_Highlight,
+  .appdetailssection_AppDetailsSectionContainer.appdetailssection_RightColumnSection,
+  .appdetailsgameinfopanel_DeckVerifiedInfo
+) {
+  border-radius: 4px !important;
+  background: var(--nxe-card) !important;
+  box-shadow: var(--nxe-card-shadow) !important;
+}
+
+.appdetails_Container .appdetailsgameinfopanel_DeckVerifiedInfo.appdetailsgameinfopanel_Focused {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--nxe-accent) !important;
+}
+
+/* Achievement progress: accent fill on a recessed track. */
+.appdetails_Container :is(.appdetailsachievementssection_AchievementProgressContainer, .appdetailsachievementssection_SingleAchievementProgressBar) {
+  border-radius: 4px !important;
+  background: var(--nxe-track-off) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  overflow: hidden;
+}
+
+.appdetails_Container .appdetailsachievementssection_AchievementProgress {
+  border-radius: 4px !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 60%), var(--nxe-accent) !important;
+}
+
+/* Community tab: screenshot, artwork, video and guide cards. Stock BasicUI: flat
+   #23262e boxes with a translucent navy author bar; focus is Steam's focus ring
+   (themed in dialogs.css). */
+.appdetails_Container .appdetailscommunityfeed_CommunityItem {
+  overflow: hidden;
+  border-radius: 4px !important;
+  background: var(--nxe-card) !important;
+  box-shadow: var(--nxe-card-shadow) !important;
+}
+
+.appdetails_Container .appdetailscommunityfeed_ArtItem .appdetailscommunityfeed_BottomSection {
+  background: linear-gradient(180deg, rgba(14, 17, 20, 0.55) 0%, rgba(14, 17, 20, 0.85) 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.appdetails_Container .appdetailscommunityfeed_AuthorName {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* "COMMUNITY GUIDE" and the like: a light tint of the accent, like the home's
+   news category labels. */
+.appdetails_Container .appdetailscommunityfeed_Guide .appdetailscommunityfeed_GuideTitle {
+  color: color-mix(in srgb, var(--nxe-accent) 55%, #fff) !important;
+  letter-spacing: 0.08em;
+}
+
+.appdetails_Container .appdetailscommunityfeed_LoadContentButton {
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+/* ---------- Buttons ----------
+   Link buttons (Store page, Discussions, …), "Details" on the Deck-verified
+   panel and every dialog button (Load More, …): keys; focused, the silver bar. */
+
+.appdetails_Container :is(.appdetailsprimarylinkssection_Anchor, .appdetailsgameinfopanel_Details, .DialogButton) {
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+.appdetails_Container :is(.appdetailsprimarylinkssection_Anchor:focus-within, .appdetailsgameinfopanel_Focused .appdetailsgameinfopanel_Details, .DialogButton.gpfocus) {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.appdetails_Container .appdetailsprimarylinkssection_Anchor .appdetailsprimarylinkssection_Link {
+  background: transparent !important;
+}
+
+.appdetails_Container .appdetailsprimarylinkssection_Anchor:focus-within .appdetailsprimarylinkssection_Text {
+  color: var(--nxe-ink) !important;
+}
+
+/* "Scroll To Top": Steam's blue pill becomes the accent band. */
+.appdetails_Container .smartscrollcontainer_ScrollToTopButton > div {
+  background: var(--nxe-band) !important;
+  box-shadow: var(--nxe-band-shadow), 0 3px 8px rgba(0, 0, 0, 0.4) !important;
+  color: var(--nxe-on-accent) !important;
+}
+
+/* ---------- Controller settings (the controller button on a game page) ----------
+   Route app/<id>/controllerconfigurator/main: ControllerConfiguratorMain (scroller)
+   > [TopSection (current layout + View/Edit Layout), BottomSection (Quick Settings
+   rows)]. Same sky as the game page; the top section becomes a graphite band. */
+
+/* The sky goes on the whole page, including the strip under the (now transparent)
+   top bar, so it runs behind the bar instead of stopping under it. View Layout's
+   page is found by its content; its in-game overlay variant (MainMenu) and the
+   small preview in the layout browser keep Steam's look. */
+.controllerconfigurator_ControllerConfiguratorGamepadPage,
+.gamepadpage_GamepadPage:has(.controllerconfiguratorsummary_ControllerConfiguratorSummary:not(.controllerconfiguratorsummary_SmallPreview, .controllerconfiguratorsummary_MainMenu)) {
+  background: var(--nxe-library-bg) !important;
+}
+
+.controllerconfigurator_ControllerConfiguratorMain {
+  background: transparent !important;
+}
+
+.controllerconfigurator_ControllerConfiguratorMain .controllerconfigurator_TopSection {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 40%),
+    rgba(12, 14, 16, 0.62) !important;
+  box-shadow:
+    inset 0 -1px 0 color-mix(in srgb, var(--nxe-accent) 70%, transparent),
+    0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.controllerconfigurator_ControllerConfiguratorMain .controllerconfigurator_BottomSection {
+  background: transparent !important;
+}
+
+.controllerconfigurator_ControllerConfiguratorMain h3 {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+/* Quick Settings rows: dark glossy cards; the focused one gets the accent strip
+   used in Quick Access. */
+.controllerconfigurator_ControllerConfiguratorMain .gamepaddialog_Field {
+  border-radius: 4px !important;
+  background: var(--nxe-card) !important;
+  box-shadow: var(--nxe-card-shadow) !important;
+}
+
+.controllerconfigurator_ControllerConfiguratorMain .gamepaddialog_Field.gamepaddialog_HighlightOnFocus:is(.gpfocus, .gpfocuswithin) {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--nxe-accent) 30%, transparent) 0%, rgba(255, 255, 255, 0.05) 75%),
+    rgba(14, 17, 20, 0.6) !important;
+  box-shadow: inset 3px 0 0 var(--nxe-accent), var(--nxe-card-shadow) !important;
+}
+
+/* Buttons and dropdowns: keys; focused, the silver bar with an accent ring, or
+   the accent band for the primary action (View Layout). */
+.controllerconfigurator_ControllerConfiguratorMain .DialogButton {
+  border: none !important;
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+.controllerconfigurator_ControllerConfiguratorMain .DialogButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.controllerconfigurator_ControllerConfiguratorMain .DialogButton.Primary.gpfocus {
+  background: var(--nxe-band) !important;
+  box-shadow: 0 0 0 2px #fff, var(--nxe-band-shadow), 0 3px 7px rgba(0, 0, 0, 0.4) !important;
+  color: var(--nxe-on-accent) !important;
+}
+
+/* The current layout's two-line label inside its button. */
+.controllerconfigurator_ControllerConfiguratorMain .DialogButton.gpfocus .dropdownlabel_DropDownLabelUpperDescription {
+  color: var(--nxe-ink-3) !important;
+}
+
+/* ---------- View Layout (controller settings → View Layout) ----------
+   controllerconfiguratorsummary: a drawing of the controller with each input's
+   binding around it and grouped lists below. Stock: flat #0e141b, grey section
+   titles, and a flat grey highlight on the focused binding. */
+
+.gamepadpage_GamepadPage .controllerconfiguratorsummary_ControllerConfiguratorSummary:not(.controllerconfiguratorsummary_SmallPreview, .controllerconfiguratorsummary_MainMenu) {
+  background: transparent !important;
+}
+
+.gamepadpage_GamepadPage .controllerconfiguratorsummary_ControllerConfiguratorSummary :is(.controllerconfiguratorsummary_ControllerInputDisplay, .controllerconfiguratorsummary_ActivatorText, .controllerconfiguratorsummary_InputGlyph) {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+/* Section titles (LEFT TRACKPAD, DIRECTIONAL PAD, …): grey in stock, hard to read on the sky. */
+.gamepadpage_GamepadPage .controllerconfiguratorsummary_ControllerConfiguratorSummary :is(.controllerconfiguratorsummary_ControlsListSection .controllerconfiguratorsummary_Title, .controllerconfiguratorsummary_ChordControlsTitle) {
+  color: rgba(255, 255, 255, 0.82) !important;
+  letter-spacing: 0.1em !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+/* Focused binding: an accent chip with a light rim instead of flat grey; the
+   labels stay white. */
+.gamepadpage_GamepadPage .controllerconfiguratorsummary_DirectAccessButton:is(:focus, .gpfocus) {
+  outline: none !important;
+  border-color: transparent !important;
+  border-radius: 4px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 60%),
+    color-mix(in srgb, var(--nxe-accent) 50%, rgba(14, 17, 20, 0.85)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nxe-accent) 70%, #fff), 0 3px 8px rgba(0, 0, 0, 0.35) !important;
+}
+
+.gamepadpage_GamepadPage .controllerconfiguratorsummary_ConfigButton {
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+}
+
+.gamepadpage_GamepadPage .controllerconfiguratorsummary_ConfigButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+

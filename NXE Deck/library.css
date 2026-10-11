@@ -1,0 +1,212 @@
+/* NXE Deck: Library skin (tab: bigpicture). "Library skin" checkbox, on by default.
+   Not part of the design handoff: it carries the Home look over to the Library
+   so the two screens read as one dashboard.
+   Sizes are Deck CSS px (854x534, shown at 1.5x).
+
+   Steam's Library is white text on dark, and its grid scrolls under a fixed tab
+   strip, so it gets the accent sky at dusk (no silver floor, darker tones) and
+   keeps light text everywhere. Every rule is scoped under the Library root
+   (.gamepadlibrary_GamepadLibrary), so nothing leaks onto other tabbed pages. */
+
+/* ---------- Background ----------
+   The root is not the scroller (each tab page scrolls inside it), so the
+   background stays still without background-attachment: fixed.
+   --nxe-library-bg is set in shared.css; the Background option overrides it. */
+
+.gamepadlibrary_GamepadLibrary {
+  background: var(--nxe-library-bg) !important;
+}
+
+/* The Collections tab paints its own dark gradient; let the sky show through. */
+.gamepadlibrary_GamepadLibrary .allcollections_ScrollContainer {
+  background: transparent !important;
+}
+
+/* The saturated, blurred copy of the art behind the focused capsule: off, like
+   the home's glow (it also costs a 50px blur on every focus change). */
+.gamepadlibrary_GamepadLibrary .appgrid_LibraryImageBackgroundGlow {
+  display: none !important;
+}
+
+/* ---------- Tab strip ----------
+   Steam frosts a dark band behind the header and the tab row. The header's white
+   icons sit on it, so it stays dark: a glossy graphite band, like the home pill,
+   with a thin accent line along its bottom edge. */
+
+/* Above the grid's sticky section headers (z-index 30, same stacking context):
+   stock lets a header pushed out by the next one slide over the tabs. */
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_TabHeaderRowWrapper {
+  z-index: 40 !important;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_TabHeaderRowWrapper::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 45%),
+    linear-gradient(180deg, rgba(22, 25, 28, 0.82) 0%, rgba(14, 16, 18, 0.9) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow:
+    inset 0 -1px 0 color-mix(in srgb, var(--nxe-accent) 70%, transparent),
+    0 4px 10px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Tabs: Steam's light text when idle. The selected tab is the silver glossy bar
+   (the Steam menu's selection), and focus adds the theme's accent ring. */
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_Tab {
+  height: auto !important;
+  max-height: none !important;
+  padding: 5px 14px !important;
+  border-radius: 15px !important;
+  color: #dcdedf !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_Tab.gamepadtabbedpage_Selected {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_Tab.gpfocus {
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 0 0 3px #fff, 0 3px 7px rgba(0, 0, 0, 0.35) !important;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_Tab.gpfocus:not(.gamepadtabbedpage_Selected) {
+  background: #fff !important;
+  color: var(--nxe-ink) !important;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_TabCount {
+  color: inherit !important;
+  opacity: 0.7;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_TabCountBadge {
+  padding: 1px 6px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 60%), var(--nxe-accent) !important;
+  color: var(--nxe-on-accent) !important;
+}
+
+/* L1/R1 hints at the row's ends: faintly visible, like on Home. */
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_Glyphs {
+  opacity: 0.55 !important;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_Glyphs.gamepadtabbedpage_Show {
+  opacity: 1 !important;
+}
+
+/* ---------- Capsules ----------
+   The home's rim and focus, without the floor reflection (a full grid of
+   -webkit-box-reflect is expensive, and there is no floor here). Steam's own
+   focus lift (translateZ) and shine stay. */
+
+.gamepadlibrary_GamepadLibrary .appportrait_LibraryItemBox {
+  border-radius: 3px !important;
+  outline: 1px solid rgba(255, 255, 255, 0.3);
+  outline-offset: -1px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Focus: white rim and accent ring, both drawn outside the capsule. An inset
+   outline would sit under the art wherever Steam positions the image above it. */
+.gamepadlibrary_GamepadLibrary .appportrait_LibraryItemBox:is(.gpfocus, :focus) {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--nxe-accent), 0 11px 20px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* ---------- Section headers and filter bar ----------
+   Sticky labels ("RECENT", "A", …) over the grid. Steam fades in a dark navy
+   band behind a header once it sticks; make it graphite with the accent line. */
+
+.gamepadlibrary_GamepadLibrary .appgrid_AppGridSectionLabel {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.gamepadlibrary_GamepadLibrary .appgrid_AppGridSectionHeader .appgrid_Rule {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0)) !important;
+}
+
+.gamepadlibrary_GamepadLibrary .appgrid_AppGridSectionHeader::after {
+  background: linear-gradient(180deg, rgba(22, 25, 28, 0.9), rgba(14, 16, 18, 0.82)) !important;
+  box-shadow:
+    inset 0 -1px 0 color-mix(in srgb, var(--nxe-accent) 50%, transparent),
+    0 4px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* "Sorted by …" / filter line above the grid. */
+.gamepadlibrary_GamepadLibrary .gamepadlibrary_AppGridFilterText {
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadlibrary_AppGridFilterHeader::before,
+.gamepadlibrary_GamepadLibrary .gamepadlibrary_AppGridFilterHeader::after {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadlibrary_AppGridFilterHeaderAsButton {
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.28) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadlibrary_AppGridFilterHeaderAsButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 0 0 3px #fff !important;
+}
+
+.gamepadlibrary_GamepadLibrary .gamepadlibrary_AppGridFilterHeaderAsButton.gpfocus .gamepadlibrary_AppGridFilterText {
+  color: var(--nxe-ink) !important;
+  text-shadow: none;
+}
+
+/* A collection's own page and the empty-tab message. */
+.gamepadlibrary_GamepadLibrary .gamepadlibrary_CollectionHeader,
+.gamepadlibrary_GamepadLibrary .appgrid_EmptyGridMessageLine {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Collections tab ----------
+   Tiles are flat navy in stock (#313d53, #6278a3 focused). Here: dark glossy
+   panels; focused, a deep accent band with a white rim (white labels stay
+   readable on it with any accent, unlike the bright band). */
+
+.gamepadlibrary_GamepadLibrary .allcollections_Header {
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.gamepadlibrary_GamepadLibrary .allcollections_Header .allcollections_Label {
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+}
+
+.gamepadlibrary_GamepadLibrary .allcollections_Header .allcollections_Rule {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0)) !important;
+}
+
+.gamepadlibrary_GamepadLibrary .allcollections_Collection {
+  border-radius: 4px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, rgba(43, 48, 53, 0.92) 0%, rgba(22, 25, 28, 0.94) 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 5px 12px rgba(0, 0, 0, 0.35) !important;
+}
+
+.gamepadlibrary_GamepadLibrary .allcollections_Collection:is(.gpfocus, :focus) {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.18) 100%),
+    var(--nxe-accent-dark) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--nxe-accent), 0 11px 20px rgba(0, 0, 0, 0.45) !important;
+}
+
+.gamepadlibrary_GamepadLibrary .allcollections_CollectionLabel {
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}

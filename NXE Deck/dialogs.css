@@ -1,0 +1,222 @@
+/* NXE Deck: menus and focus shared across the gamepad UI (tabs: bigpicture, MainMenu, QuickAccess).
+   Not part of the design handoff: they carry the Steam menu's look (C.2–C.4) to
+   Steam's other pop-up menus, and the theme's focus ring to Steam's generic one.
+
+   Context menus: the gear button on a game page, a capsule's Options menu, and the
+   other gamepad context menus all render Steam's gamepadcontextmenu module:
+   BasicContextMenuModal > [BasicContextMenuHeader, BasicContextMenuContainer >
+   contextMenuContents per open level > rows]. There is no panel element: in stock
+   the box is just each row's own grey fill, so the panel goes on each level's row
+   list (a submenu overlaps its parent by 84px, so the levels stack like blades). */
+
+/* Scrim behind the menu (spec C.6). */
+.gamepadcontextmenu_contextMenuFade {
+  background: #0a0c0e !important;
+  opacity: 0.58 !important;
+}
+
+.gamepadcontextmenu_BasicContextMenuHeader {
+  color: #fff !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Panel: the Steam menu's dark panel, on each level's row list. contextMenu is the
+   desktop-style menu's own panel, used by other surfaces. */
+.gamepadcontextmenu_contextMenuContents,
+.gamepadcontextmenu_contextMenu {
+  padding: 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px !important;
+  background: var(--nxe-panel) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 32px rgba(0, 0, 0, 0.6) !important;
+  filter: none !important; /* Steam's drop-shadow, replaced by the box shadow */
+}
+
+/* Steam spaces the first and last rows 15px and 40px from the list's edges as
+   scroll room; inside a box that reads as empty panel. */
+.gamepadcontextmenu_contextMenuContents > :first-child {
+  margin-top: 0 !important;
+}
+
+.gamepadcontextmenu_contextMenuContents > :last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Items sit on the panel instead of each painting its own grey block. Focused
+   rows are left to Steam's colours (below), so they're excluded here. */
+.gamepadcontextmenu_contextMenuItem {
+  border-radius: 4px;
+}
+
+.gamepadcontextmenu_contextMenuItem:not(.gamepadcontextmenu_Focused, .gamepadcontextmenu_active) {
+  background: transparent !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+/* The open submenu's parent row. */
+.gamepadcontextmenu_contextMenuItem.gamepadcontextmenu_Selected:not(.gamepadcontextmenu_Focused) {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Focused: Steam fills the row white (or green, blue, red for rows it colours by
+   meaning: Play/Stream, Install/Update, Uninstall/Cancel) and sets the text to
+   match. Only a gloss is added on top, which turns the white into the Steam menu's
+   silver bar and keeps the others' meaning; plus its accent tab. */
+.gamepadcontextmenu_contextMenuItem:is(.gamepadcontextmenu_Focused, .gamepadcontextmenu_active) {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.15) 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 3px 7px rgba(0, 0, 0, 0.4);
+}
+
+.gamepadcontextmenu_contextMenuItem.gamepadcontextmenu_Focused::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 4px;
+  height: 50%;
+  border-radius: 0 2px 2px 0;
+  background: var(--nxe-accent);
+}
+
+/* Between groups Steam leaves a 2px gap that shows its darker panel; draw the
+   Steam menu's divider instead (C.5). */
+.gamepadcontextmenu_ContextMenuSeparator {
+  height: 1px !important;
+  min-height: 1px !important;
+  margin: 5px 10px;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ---------- Focus ring ----------
+   Steam draws this overlay around focused items that have no focus style of their
+   own (activity and community cards, screenshots, …): a pulsing 2px translucent
+   white outline. Here: the theme's white rim with the accent ring outside it. */
+
+.focusring_FocusRing {
+  outline: 2px solid #fff !important;
+  outline-offset: 0 !important;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px var(--nxe-accent), 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- Top bar ----------
+   Pages such as a game's controller settings and View Layout ask Steam for an
+   opaque top bar, which it paints solid black. Transparent here, over the page;
+   the theme's own pages paint their sky up under it (appdetails.css), and stock
+   pages show their usual dark background. Steam's frosted strip (::before) still
+   fades in where content scrolls under the bar. */
+.header_Header.header_HeaderOpaque {
+  background-color: transparent !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.header_Header.header_HeaderOpaque svg {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}
+
+
+/* ---------- Achievements: the summary gives way to the list ----------
+   Read live from a Deck (the in-game panel's Achievements): page > [HeaderContainer
+   (portrait, title, progress: about half the panel), AchievementTabs (the rest) >
+   GamepadTabbedPage > TabContentsScroll (the list)]. Stock, the tabbed page is
+   window-tall (IsUnderHeader: 100vh), so the list's scroller runs past the bottom
+   of the panel: the list stays in the lower half and focus can move below what is
+   visible. */
+
+/* The tabbed page fills its own area, so the list scroller ends with the panel. */
+.achievementspage_AchievementTabs .gamepadtabbedpage_GamepadTabbedPage {
+  top: 0 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+}
+
+/* Scroll-linked: as the list scrolls down, the header folds away over the first
+   160px and the list takes the whole panel; back at the top, it returns. The list
+   scroller names a scroll timeline, shared up to the header's parent. */
+div:has(> .achievementspage_HeaderContainer) {
+  timeline-scope: --nxe-achievements;
+}
+
+.achievementspage_AchievementTabs .gamepadtabbedpage_TabContentsScroll {
+  scroll-timeline: --nxe-achievements block;
+}
+
+.achievementspage_HeaderContainer {
+  flex-shrink: 0; /* overflow: hidden would otherwise let the list squeeze it */
+  overflow: hidden;
+  animation: nxe-achievements-fold linear both;
+  animation-timeline: --nxe-achievements;
+  animation-range: 0px 160px;
+}
+
+@keyframes nxe-achievements-fold {
+  from {
+    max-height: 300px;
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  }
+}
+
+/* ---------- Confirmation dialogs ----------
+   Steam's generic gamepad dialog (exit a game, uninstall, sign out, …):
+   ModalPosition (the area between top bar and footer) > GamepadDialogContent (the
+   box, flat #0e141b with a 2px grey border) > [DialogHeader, DialogBodyText,
+   DialogFooter > buttons]. Here: the Steam menu's dark panel, the title on the
+   Quick Access header's accent band, and the theme's keys. */
+
+.gamepaddialog_ModalPosition > .gamepaddialog_GamepadDialogContent {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px;
+  background: var(--nxe-panel) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* A title at the top of the box bleeds to its edges as the accent band. */
+.gamepaddialog_ModalPosition > .gamepaddialog_GamepadDialogContent .DialogHeader:first-child {
+  margin: calc(-12px - 2.25vh) -2.8vw 16px !important;
+  padding: 10px 2.8vw !important;
+  border-radius: 5px 5px 0 0;
+  background: var(--nxe-band);
+  box-shadow: var(--nxe-band-shadow);
+  color: var(--nxe-on-accent) !important;
+  text-shadow: none !important;
+}
+
+.gamepaddialog_ModalPosition > .gamepaddialog_GamepadDialogContent .DialogBodyText {
+  color: var(--nxe-panel-text) !important;
+}
+
+.gamepaddialog_ModalPosition .DialogButton {
+  border: none !important;
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+.gamepaddialog_ModalPosition .DialogButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.gamepaddialog_ModalPosition .DialogButton.Primary.gpfocus {
+  background: var(--nxe-band) !important;
+  box-shadow: 0 0 0 2px #fff, var(--nxe-band-shadow) !important;
+  color: var(--nxe-on-accent) !important;
+}
+
+.gamepaddialog_ModalPosition .DialogButton.Destructive.gpfocus {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.18) 100%), var(--nxe-b-red) !important;
+  box-shadow: 0 0 0 2px #fff, 0 3px 7px rgba(0, 0, 0, 0.4) !important;
+  color: #fff !important;
+}

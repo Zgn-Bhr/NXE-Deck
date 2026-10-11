@@ -1,0 +1,40 @@
+/* NXE Deck option: case bands (spec B.6). "Case bands" dropdown.
+   Glossy band across the top 13% of each portrait capsule, like the platform band
+   on a game case: Home's portrait capsules and the Library grid. Not on the
+   featured landscape capsule.
+   Label, colour and ink come from --nxe-band-label/-color/-ink: unset ("Steam
+   Deck"), it is the accent band reading STEAM DECK; "By source" sets them per
+   capsule (options/bands-source.css, options/sources.css).
+   Uses the capsule's ::before, which Steam only uses as an invisible 6px hit-area
+   extension; ::after is Steam's focus shine and is left alone.
+   The dot and gap are literal characters (U+25CF, U+2002): CSS Loader doubles
+   backslashes, so CSS escapes would show up as text. */
+
+.gamepadhome_ScrollArea .appportrait_LibraryItemBox.appportrait_InRecentGames.appportrait_Portrait::before,
+.gamepadlibrary_GamepadLibrary .appportrait_LibraryItemBox.appportrait_Portrait::before {
+  content: var(--nxe-band-label, '● STEAM DECK');
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: auto;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: 13%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 3px 3px 0 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 100%),
+    var(--nxe-band-color, var(--nxe-accent));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: var(--nxe-band-ink, #fff);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}

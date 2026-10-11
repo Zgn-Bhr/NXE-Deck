@@ -1,0 +1,146 @@
+{
+  "name": "NXE Deck",
+  "author": "Zgn-Bhr",
+  "version": "v1.0.0",
+  "description": "A tribute to the Xbox 360 New Xbox Experience: lime sky over a silver floor with reflections, a receding game blade, a Guide-style Steam menu, a mini-blade Quick Access menu, and a matching Library, game pages, Downloads, Settings, Media and Friends. Sliders and toggles are restyled globally, so Settings picks up the glossy look too. Uses Open Sans (SIL OFL 1.1); no Microsoft assets.",
+  "target": ["Home", "Library", "System-Wide"],
+  "manifest_version": 9,
+  "inject": {
+    "shared.css": ["bigpicture", "MainMenu", "QuickAccess"],
+    "controls.css": ["bigpicture", "QuickAccess"],
+    "dialogs.css": ["bigpicture", "MainMenu", "QuickAccess"],
+    "home.css": ["bigpicture"],
+    "mainmenu.css": ["MainMenu"],
+    "quickaccess.css": ["QuickAccess"]
+  },
+  "patches": {
+    "Accent": {
+      "default": "NXE Green",
+      "type": "dropdown",
+      "values": {
+        "NXE Green": {},
+        "Blue": { "--nxe-accent": ["#2f8fd8", "bigpicture", "MainMenu", "QuickAccess"] },
+        "Orange": { "--nxe-accent": ["#e07a2e", "bigpicture", "MainMenu", "QuickAccess"] },
+        "Purple": { "--nxe-accent": ["#9b6ad6", "bigpicture", "MainMenu", "QuickAccess"] },
+        "Red": { "--nxe-accent": ["#d9483b", "bigpicture", "MainMenu", "QuickAccess"] },
+        "Pink": { "--nxe-accent": ["#e05aa0", "bigpicture", "MainMenu", "QuickAccess"] },
+        "Teal": { "--nxe-accent": ["#1fa89a", "bigpicture", "MainMenu", "QuickAccess"] },
+        "Silver": { "--nxe-accent": ["#a7b0b8", "bigpicture", "MainMenu", "QuickAccess"] },
+        "Custom": {}
+      },
+      "components": [
+        {
+          "name": "Custom colour",
+          "type": "color-picker",
+          "on": "Custom",
+          "default": "#7cb82f",
+          "css_variable": "nxe-accent",
+          "tabs": ["bigpicture", "MainMenu", "QuickAccess"]
+        }
+      ]
+    },
+    "Background": {
+      "default": "NXE green",
+      "type": "dropdown",
+      "values": {
+        "NXE green": {},
+        "Silver studio": { "options/bg-silver.css": ["bigpicture", "MainMenu", "QuickAccess"] },
+        "Custom image": { "options/bg-custom.css": ["bigpicture", "MainMenu", "QuickAccess"] }
+      },
+      "components": [
+        {
+          "name": "Wallpaper",
+          "type": "image-picker",
+          "on": "Custom image",
+          "default": "NXE Deck/images/nxe-green.jpg",
+          "css_variable": "nxe-wallpaper",
+          "tabs": ["bigpicture", "MainMenu", "QuickAccess"]
+        }
+      ]
+    },
+    "Floor line": {
+      "default": "57%",
+      "type": "slider",
+      "values": {
+        "51%": { "--nxe-horizon": ["51vh", "bigpicture"] },
+        "54%": { "--nxe-horizon": ["54vh", "bigpicture"] },
+        "57%": {},
+        "60%": { "--nxe-horizon": ["60vh", "bigpicture"] },
+        "63%": { "--nxe-horizon": ["63vh", "bigpicture"] }
+      }
+    },
+    "Library skin": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": { "library.css": ["bigpicture"] },
+        "No": {}
+      }
+    },
+    "Game page skin": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": { "appdetails.css": ["bigpicture"] },
+        "No": {}
+      }
+    },
+    "Other pages": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": { "pages.css": ["bigpicture"] },
+        "No": {}
+      }
+    },
+    "NXE scrolling": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": { "options/scroll.css": ["bigpicture"] },
+        "No": {}
+      }
+    },
+    "Carousel depth": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": { "options/depth.css": ["bigpicture"] },
+        "No": {}
+      }
+    },
+    "Ghost channels": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": { "options/ghost.css": ["bigpicture"] },
+        "No": {}
+      }
+    },
+    "Case bands": {
+      "default": "By source",
+      "type": "dropdown",
+      "values": {
+        "By source": { "options/bands.css": ["bigpicture"], "options/bands-source.css": ["bigpicture"], "options/sources.css": ["bigpicture"] },
+        "Steam Deck": { "options/bands.css": ["bigpicture"] },
+        "Off": {}
+      }
+    },
+    "Light footer": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": { "options/footer.css": ["bigpicture"] },
+        "No": {}
+      }
+    },
+    "Debug outlines": {
+      "default": "No",
+      "type": "checkbox",
+      "values": {
+        "Yes": { "options/debug.css": ["bigpicture", "MainMenu", "QuickAccess"] },
+        "No": {}
+      }
+    }
+  }
+}

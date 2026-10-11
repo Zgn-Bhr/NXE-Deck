@@ -1,0 +1,20 @@
+.DS_Store
+__pycache__/
+
+# CSS Loader writes the user's option choices here (on the Deck only).
+config_*.json
+
+# Built zips: attached to GitHub releases instead.
+dist/
+
+# Local only: the emulator (loads Steam's own stylesheets from the installed
+# client, plus sanitized snapshots of a live Deck), caches and probe output.
+preview/
+tools/.cache/
+probe-output/
+.claude/
+
+# The original design brief and its mockups.
+design/
+nxe-deck-handoff.zip
+NXE-Deck-SPEC.md

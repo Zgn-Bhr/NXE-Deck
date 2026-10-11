@@ -1,0 +1,12 @@
+/* NXE Deck option: "Background: Custom image".
+   The "Wallpaper" picker sets --nxe-wallpaper to an image from ~/homebrew/themes/.
+   It covers the screen, centred; the NXE green shows until an image is picked.
+   The Library dims it, since its text is white. */
+
+:root {
+  --nxe-home-bg: var(--nxe-wallpaper, none) center / cover no-repeat, var(--nxe-bg-green);
+  --nxe-library-bg:
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    var(--nxe-wallpaper, none) center / cover no-repeat,
+    var(--nxe-library-sky);
+}

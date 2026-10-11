@@ -1,0 +1,26 @@
+/* NXE Deck option: light footer legend bar (spec B.13). "Light footer" checkbox, on by default.
+   Steam's button glyphs are white discs with dark letters, so they are inverted
+   here. Home, Library, game pages, controller settings, Downloads, Settings and Media only, via :has(); other pages keep Steam's dark glass footer. If the
+   :has() condition ever leaks to another page, the bar is still self-contained
+   and readable (light bar, dark glyphs, dark labels). */
+
+body:has(.gamepadhome_ScrollArea, .gamepadlibrary_GamepadLibrary, .appdetails_Container, .controllerconfigurator_ControllerConfiguratorMain, .controllerconfiguratorsummary_ControllerConfiguratorSummary, .downloads_DownloadsPage, .gamepadpagedsettings_PagedSettingsDialog, ._mP9RJOCZ_ScreenshotList) .footer_BasicFooter {
+  background: rgba(246, 247, 248, 0.95) !important;
+  backdrop-filter: none !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-image: none !important;
+  box-shadow: 0 -4px 11px rgba(0, 0, 0, 0.08) !important;
+}
+
+body:has(.gamepadhome_ScrollArea, .gamepadlibrary_GamepadLibrary, .appdetails_Container, .controllerconfigurator_ControllerConfiguratorMain, .controllerconfiguratorsummary_ControllerConfiguratorSummary, .downloads_DownloadsPage, .gamepadpagedsettings_PagedSettingsDialog, ._mP9RJOCZ_ScreenshotList) .footer_BasicFooter .actionbuttonlegenditem_ActionButtonLabel {
+  color: var(--nxe-ink-2) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+/* Stock glyphs are white discs with #0e141b letters; inverted they become dark
+   discs with light letters, which read on the light bar. */
+body:has(.gamepadhome_ScrollArea, .gamepadlibrary_GamepadLibrary, .appdetails_Container, .controllerconfigurator_ControllerConfiguratorMain, .controllerconfiguratorsummary_ControllerConfiguratorSummary, .downloads_DownloadsPage, .gamepadpagedsettings_PagedSettingsDialog, ._mP9RJOCZ_ScreenshotList) .footer_BasicFooter .actionbuttonlegenditem_ActionButtonGlyph {
+  filter: invert(1);
+}

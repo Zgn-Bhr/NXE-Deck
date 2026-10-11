@@ -1,0 +1,33 @@
+/* NXE Deck option: ghost channel labels (spec B.2). "Ghost channels" checkbox.
+   Two static, non-navigable lines above the "Recent Games" pill, farther one on
+   top, hinting at the NXE channel stack. Anchored to the pill (home.css makes it
+   relative). Colours come from --nxe-ghost-1/2: white on the green sky, dark on
+   the silver background. Pseudo-elements never take controller focus. */
+
+.gamepadhome_ScrollArea .gamepadhomerecentgames_RecentGamesHeaderLabel::before,
+.gamepadhome_ScrollArea .gamepadhomerecentgames_RecentGamesHeaderLabel::after {
+  position: absolute;
+  left: 9px;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-shadow: none;
+}
+
+/* Farther: "Store" */
+.gamepadhome_ScrollArea .gamepadhomerecentgames_RecentGamesHeaderLabel::before {
+  content: 'Store';
+  bottom: calc(100% + 20px);
+  font-size: 11px;
+  color: var(--nxe-ghost-2);
+}
+
+/* Nearer: "Library" */
+.gamepadhome_ScrollArea .gamepadhomerecentgames_RecentGamesHeaderLabel::after {
+  content: 'Library';
+  bottom: calc(100% + 4px);
+  font-size: 13px;
+  color: var(--nxe-ghost-1);
+}

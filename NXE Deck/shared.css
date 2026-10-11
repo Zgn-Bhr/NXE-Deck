@@ -1,0 +1,187 @@
+/* NXE Deck: shared tokens, font and surface recipes.
+   Injected into bigpicture, MainMenu and QuickAccess. Spec §1–§3. */
+
+/* ---------- Font: Open Sans, SIL OFL 1.1 (fonts/OFL.txt) ---------- */
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/themes_custom/NXE Deck/fonts/open-sans-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/themes_custom/NXE Deck/fonts/open-sans-latin-600-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/themes_custom/NXE Deck/fonts/open-sans-latin-700-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---------- Tokens (§2) ----------
+   Sizes: the Deck renders its UI at 854x534 CSS px, scaled 1.5x onto the
+   1280x800 panel. The design was drawn at 1280x800, so its pixel values are
+   divided by 1.5 here, with small text clamped to Steam's own minimum (~12px). */
+
+/* Zero specificity so injected option values (`:root { … }` from the colour
+   picker, sliders and dropdowns) always win, whatever the injection order. */
+:where(:root) {
+  --nxe-accent: #7cb82f;
+  --nxe-horizon: 57vh; /* floor line; the "Floor line" option overrides it */
+  --nxe-home-bg: var(--nxe-bg-green); /* the "Background" option overrides it */
+  --nxe-library-bg: var(--nxe-library-sky); /* likewise */
+  /* Ghost labels sit on the green sky by default; the silver background darkens them. */
+  --nxe-ghost-1: rgba(255, 255, 255, 0.66);
+  --nxe-ghost-2: rgba(255, 255, 255, 0.48);
+}
+
+:root {
+  /* Accent derivatives follow the picker instead of staying lime.
+     With the default lime they land close to the spec values (#3d6b12, #10200a, #2c4f12). */
+  --nxe-accent-dark: color-mix(in srgb, var(--nxe-accent) 52%, #000);
+  --nxe-on-accent: color-mix(in srgb, var(--nxe-accent) 14%, #000);
+  --nxe-accent-deep: color-mix(in srgb, var(--nxe-accent) 38%, #000);
+
+  --nxe-ink: #1d2023;
+  --nxe-ink-2: #2b3035;
+  --nxe-ink-3: #4c5257;
+  --nxe-ink-4: #5b6268;
+  --nxe-info: #2f5f8f;
+  --nxe-new: #1a6fc4;
+  --nxe-b-red: #d23b2c;
+  --nxe-panel-text: #e8eaec;
+  --nxe-panel-icon: #aeb5bb;
+  --nxe-rail-icon: #9aa1a7;
+  --nxe-track-off: #3a3f44;
+  --nxe-rail-bg: #131618;
+  --nxe-divider: rgba(255, 255, 255, 0.1);
+
+  --nxe-font: 'Open Sans', 'Motiva Sans', 'Segoe UI', system-ui, sans-serif;
+
+  /* ---------- Home backgrounds ----------
+     Both are drawn in CSS (no bitmap assets, nothing taken from the console)
+     and put their horizon at --nxe-horizon, just under the capsules. */
+
+  /* Sky colours follow the accent, like the colour themes on the NXE. */
+  --nxe-sky-1: color-mix(in srgb, var(--nxe-accent) 62%, #000);
+  --nxe-sky-2: color-mix(in srgb, var(--nxe-accent) 82%, #000);
+  --nxe-sky-3: color-mix(in srgb, var(--nxe-accent) 94%, #fff);
+  --nxe-sky-4: color-mix(in srgb, var(--nxe-accent) 72%, #fff);
+  --nxe-glow: color-mix(in srgb, var(--nxe-accent) 35%, #fff9a0);
+  --nxe-vignette: color-mix(in srgb, color-mix(in srgb, var(--nxe-accent) 30%, #000) 55%, transparent);
+
+  /* NXE green (default): accent sky with a warm glow and soft bokeh, over a
+     silver floor whose edge curves down toward the sides. */
+  --nxe-floor:
+    /* floor highlight */
+    radial-gradient(ellipse 240px 30px at 28% calc(var(--nxe-horizon) + 29vh), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 75%),
+    /* floor: a very wide ellipse whose top edge is the horizon */
+    radial-gradient(ellipse 1100px 268px at 50% calc(var(--nxe-horizon) + 268px),
+      #f6f6f6 0%, #ececec 55%, #d3d4d4 80%, #aeb0b0 92%, #c6c7c7 98%, #e4e5e5 99.4%, rgba(228, 229, 229, 0) 100%);
+  --nxe-bokeh-rings:
+    /* bokeh: rings */
+    radial-gradient(circle at 16% 30%, transparent 14px, rgba(255, 255, 255, 0.3) 15px 16.5px, transparent 17.5px),
+    radial-gradient(circle at 19% 38%, transparent 8px, rgba(255, 255, 255, 0.28) 9px 10px, transparent 11px),
+    radial-gradient(circle at 3% 50%, transparent 10px, rgba(255, 255, 255, 0.22) 11px 12px, transparent 13px),
+    radial-gradient(circle at 57% 5%, transparent 8px, rgba(255, 255, 255, 0.22) 9px 10px, transparent 11px),
+    radial-gradient(circle at 77% 38%, rgba(255, 255, 255, 0.4) 0 3px, transparent 3.5px 6px, rgba(255, 255, 255, 0.45) 7px 9px, transparent 10px),
+    radial-gradient(circle at 70% 49%, transparent 33px, rgba(255, 255, 255, 0.25) 34px 35.5px, transparent 36.5px),
+    radial-gradient(circle at 80% 51%, transparent 25px, rgba(255, 255, 255, 0.3) 26px 27.5px, transparent 28.5px),
+    radial-gradient(circle at 85% 51%, rgba(255, 255, 255, 0.35) 0 4px, transparent 4.5px 8px, rgba(255, 255, 255, 0.35) 9px 11px, transparent 12px),
+    radial-gradient(circle at 98% 36%, transparent 19px, rgba(255, 255, 255, 0.3) 20px 21.5px, transparent 22.5px),
+    radial-gradient(circle at 97% 3%, transparent 9px, rgba(255, 255, 255, 0.3) 10px 11px, transparent 12px),
+    radial-gradient(circle at 91% 42%, transparent 7px, rgba(255, 255, 255, 0.3) 8px 9px, transparent 10px);
+  --nxe-bokeh-dots:
+    /* bokeh: dots */
+    radial-gradient(circle at 9% 37%, rgba(255, 255, 255, 0.25) 0 5px, transparent 6px),
+    radial-gradient(circle at 4% 47%, rgba(255, 255, 255, 0.2) 0 7px, transparent 8px),
+    radial-gradient(circle at 13% 44%, rgba(255, 255, 255, 0.3) 0 3px, transparent 4px),
+    radial-gradient(circle at 41% 33%, rgba(255, 255, 255, 0.28) 0 9px, transparent 12px),
+    radial-gradient(circle at 47% 31%, rgba(255, 255, 255, 0.25) 0 5px, transparent 6px),
+    radial-gradient(circle at 49.5% 35%, rgba(255, 255, 255, 0.3) 0 10px, transparent 13px),
+    radial-gradient(circle at 52% 47%, rgba(255, 255, 255, 0.24) 0 14px, transparent 18px),
+    radial-gradient(circle at 66% 29%, rgba(255, 255, 255, 0.25) 0 6px, transparent 7px),
+    radial-gradient(circle at 75.5% 33.5%, rgba(255, 255, 255, 0.3) 0 8px, transparent 10px),
+    radial-gradient(circle at 72% 50%, rgba(255, 255, 255, 0.18) 0 16px, transparent 20px),
+    radial-gradient(circle at 87% 31%, rgba(255, 255, 255, 0.2) 0 5px, transparent 6px);
+  --nxe-sky:
+    /* warm glow just above the horizon */
+    radial-gradient(ellipse 260px 150px at 56% calc(var(--nxe-horizon) - 9vh),
+      color-mix(in srgb, var(--nxe-glow) 95%, transparent) 0%, color-mix(in srgb, var(--nxe-glow) 50%, transparent) 45%, transparent 80%),
+    /* grey haze in the top-right corner, darker corners overall */
+    radial-gradient(ellipse 240px 170px at 100% 0%, rgba(96, 98, 88, 0.6), rgba(96, 98, 88, 0) 75%),
+    radial-gradient(ellipse 70% 80% at 55% 60%, transparent 45%, var(--nxe-vignette) 100%),
+    linear-gradient(180deg, var(--nxe-sky-1) 0%, var(--nxe-sky-2) 22%, var(--nxe-sky-3) 40%, var(--nxe-sky-4) var(--nxe-horizon));
+  --nxe-bg-green: var(--nxe-floor), var(--nxe-bokeh-rings), var(--nxe-bokeh-dots), var(--nxe-sky);
+
+  /* Library: the same sky at dusk, kept clean. Steam's Library text is white and
+     its grid scrolls, so no floor, no bokeh and darker tones keep small white
+     labels readable and the covers in front. */
+  --nxe-library-sky:
+    radial-gradient(ellipse 300px 170px at 56% 82vh,
+      color-mix(in srgb, var(--nxe-glow) 45%, transparent) 0%, transparent 80%),
+    radial-gradient(ellipse 70% 80% at 55% 60%, transparent 45%, var(--nxe-vignette) 100%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--nxe-accent) 40%, #000) 0%,
+      color-mix(in srgb, var(--nxe-accent) 56%, #000) 55%,
+      color-mix(in srgb, var(--nxe-accent) 66%, #000) 100%);
+
+  /* Silver studio (the spec's original background): white glow over grey, hard horizon. */
+  --nxe-studio:
+    radial-gradient(ellipse 60% 45% at 40% 30%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, #e6e9ec 0%, #d4d9dd calc(var(--nxe-horizon) - 6vh), #c6ccd1 var(--nxe-horizon),
+      #dfe3e6 calc(var(--nxe-horizon) + 1px), #eef0f2 100%);
+
+  /* ---------- Surface recipes (§3) ---------- */
+
+  /* Dark glossy pill: section header, selected home tab */
+  --nxe-pill: linear-gradient(180deg, #41474d 0%, #262a2e 50%, #1a1d20 100%);
+  --nxe-pill-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 4px 10px rgba(0, 0, 0, 0.25);
+
+  /* Dark panel: Steam menu, QAM */
+  --nxe-panel: linear-gradient(180deg, #2b3035 0%, #1e2226 40%, #16191c 100%);
+
+  /* Glossy accent band: QAM header, selected rail tab, case bands */
+  --nxe-band:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.18) 100%),
+    var(--nxe-accent);
+  --nxe-band-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+  /* Silver glossy selection bar: focused Steam menu item */
+  --nxe-silver-bar: linear-gradient(180deg, #ffffff 0%, #eceff1 52%, #d6dadd 100%);
+  --nxe-silver-bar-shadow: inset 0 1px 0 #fff, 0 3px 7px rgba(0, 0, 0, 0.4);
+
+  /* Dark glossy key: buttons in Quick Access and on game pages */
+  --nxe-key:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 50%, rgba(0, 0, 0, 0.12) 100%),
+    #30353a;
+  --nxe-key-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 2px 4px rgba(0, 0, 0, 0.35);
+
+  /* Translucent dark card over the sky: game page panels */
+  --nxe-card:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 40%),
+    rgba(14, 17, 20, 0.55);
+  --nxe-card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(0, 0, 0, 0.3);
+
+  /* Silver sphere: slider thumb, toggle knob */
+  --nxe-sphere: radial-gradient(circle at 50% 30%, #fff 0%, #e3e6e9 60%, #b9bfc4 100%);
+}
+
+/* ---------- Global type ---------- */
+
+/* Steam sets "Motiva Sans" on many elements directly, so a root rule is not enough. */
+html,
+body,
+body * {
+  font-family: var(--nxe-font) !important;
+}

@@ -1,0 +1,38 @@
+/* NXE Deck option: Case bands "By source". Injected together with bands.css and
+   the generated options/sources.css.
+   Every capsule reads STEAM in Steam's colours unless sources.css claims it as a
+   non-Steam shortcut (by its exact ID, from the Deck's shortcut list): HEROIC,
+   RETRO (emulators and their frontends) or APP (other launchers and apps). A
+   shortcut without artwork shows Steam's placeholder image, so it can't be told
+   apart by ID; it reads APP.
+   Plain words only (no logos). Change a label or colour here. */
+
+:root {
+  --nxe-band-steam-label: '● STEAM';
+  --nxe-band-steam-color: #2a5b84;   /* Steam's navy-blue */
+  --nxe-band-steam-ink: #e3eef7;
+
+  --nxe-band-heroic-label: '● HEROIC';
+  --nxe-band-heroic-color: #7a4fd6;  /* violet */
+  --nxe-band-heroic-ink: #fff;
+
+  --nxe-band-retro-label: '● RETRO';
+  --nxe-band-retro-color: #8e959c;   /* grey */
+  --nxe-band-retro-ink: #fff;
+
+  --nxe-band-app-label: '● APP';
+  --nxe-band-app-color: #454b51;     /* graphite */
+  --nxe-band-app-ink: #e8eaec;
+}
+
+:is(.gamepadhome_ScrollArea, .gamepadlibrary_GamepadLibrary) .appportrait_LibraryItemBox {
+  --nxe-band-label: var(--nxe-band-steam-label);
+  --nxe-band-color: var(--nxe-band-steam-color);
+  --nxe-band-ink: var(--nxe-band-steam-ink);
+}
+
+:is(.gamepadhome_ScrollArea, .gamepadlibrary_GamepadLibrary) .appportrait_LibraryItemBox:has(img[src*="/images/defaultappimage"]) {
+  --nxe-band-label: var(--nxe-band-app-label);
+  --nxe-band-color: var(--nxe-band-app-color);
+  --nxe-band-ink: var(--nxe-band-app-ink);
+}

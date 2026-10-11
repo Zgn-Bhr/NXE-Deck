@@ -1,0 +1,244 @@
+/* NXE Deck: Concept D, Quick Access menu as a mini-blade (tab: QuickAccess).
+   Sliders and toggles live in controls.css. Selector status: docs/SELECTORS.md.
+
+   Steam's structure: QuickAccessMenu > [HeaderContainer, Menu > [Tabs, PanelOuterNav >
+   ContentTransition > [Title, TabGroupPanel]]]. The icon rail is the first child
+   of a left-to-right row, so it sits between the game and the content. It stays
+   there: D-pad right from the rail enters the content, and moving the rail
+   visually would invert that. Tab width and height are left to Steam. */
+
+/* ---------- D.1 Panel ---------- */
+
+.quickaccessmenu_QuickAccessMenu {
+  background: var(--nxe-panel) !important;
+  box-shadow: -12px 0 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ---------- D.2 Section header: glossy accent band (64 design px = 43 Deck px) ----------
+   Also Decky's plugin panels, which reuse this class for their titles. */
+
+.quickaccessmenu_Title {
+  box-sizing: border-box;
+  height: 43px !important;
+  min-height: 43px;
+  margin: 0 !important;
+  padding: 0 15px !important;
+  background: var(--nxe-band) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.35) !important; /* replaces Steam's 12px dark halo */
+  color: var(--nxe-on-accent) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+}
+
+.quickaccessmenu_Title * {
+  color: inherit !important;
+}
+
+/* ---------- D.3 Icon rail ---------- */
+
+.quickaccessmenu_Tabs {
+  background: var(--nxe-rail-bg) !important;
+}
+
+.quickaccessmenu_Tabs::after {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.quickaccessmenu_Tab {
+  color: var(--nxe-rail-icon) !important;
+}
+
+/* Selected tab: glossy accent band, rounded on the content side. */
+.quickaccessmenu_Tab.quickaccessmenu_Selected {
+  color: var(--nxe-on-accent) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.18) 100%), var(--nxe-accent) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+  border-radius: 0 5px 5px 0 !important;
+  animation: none !important;
+}
+
+/* Focus (rule 4). Steam paints a focused tab white; keep that for unselected
+   tabs, and ring the selected one in white (inset: the tab clips overflow). */
+.quickaccessmenu_Tab.quickaccessmenu_Selected.gpfocus,
+.gpfocus .quickaccessmenu_Tab.quickaccessmenu_Selected {
+  box-shadow: inset 0 0 0 2px #fff, inset 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ---------- D.6 Rows ---------- */
+
+.quickaccessmenu_PanelSectionTitle,
+.quickaccesscontrols_PanelSectionTitle {
+  color: var(--nxe-panel-icon) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.quickaccessmenu_TabGroupPanel .gamepaddialog_FieldLabel {
+  color: var(--nxe-panel-text) !important;
+}
+
+.quickaccessmenu_TabGroupPanel .gamepaddialog_FieldIcon {
+  color: var(--nxe-panel-icon) !important;
+}
+
+.quickaccessmenu_TabGroupPanel .gamepaddialog_FieldDescription {
+  color: var(--nxe-panel-icon) !important;
+}
+
+/* Focused row: Steam paints a flat grey strip (#3d4450) behind the focused row.
+   Here: an accent-tinted strip with an accent edge, like a blade highlight. */
+.quickaccessmenu_TabGroupPanel .gamepaddialog_Field.gamepaddialog_HighlightOnFocus:is(.gpfocus, .gpfocuswithin) {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--nxe-accent) 26%, transparent) 0%, rgba(255, 255, 255, 0.04) 75%) !important;
+  box-shadow: inset 3px 0 0 var(--nxe-accent);
+}
+
+/* A focused button is its own highlight (below), so no strip behind it. */
+.quickaccessmenu_TabGroupPanel .gamepaddialog_Field.gamepaddialog_HighlightOnFocus:has(.DialogButton.gpfocus) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ---------- D.8 Buttons ----------
+   Steam's own (Soundtracks, Help) and every Decky plugin's: the plugin list,
+   CSS Loader's buttons and dropdowns. Stock: flat 15% white, white when focused.
+   Here: dark glossy keys; focused, the Steam menu's silver bar with an accent tab.
+   !important beats Steam's long :enabled:active:hover selector chains. */
+
+.quickaccessmenu_TabGroupPanel .DialogButton {
+  border: none !important;
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+.quickaccessmenu_TabGroupPanel .DialogButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.quickaccessmenu_TabGroupPanel .DialogButton.gpfocus::before {
+  content: '' !important;
+  position: absolute;
+  left: 0;
+  top: 22%;
+  width: 4px;
+  height: 56%;
+  border-radius: 0 2px 2px 0;
+  background: var(--nxe-accent);
+}
+
+/* Primary actions get the accent band when focused; destructive ones stay red. */
+.quickaccessmenu_TabGroupPanel .DialogButton.Primary.gpfocus {
+  background: var(--nxe-band) !important;
+  box-shadow: var(--nxe-band-shadow), 0 3px 7px rgba(0, 0, 0, 0.4) !important;
+  color: var(--nxe-on-accent) !important;
+}
+
+.quickaccessmenu_TabGroupPanel .DialogButton.Destructive.gpfocus {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.18) 100%), var(--nxe-b-red) !important;
+  color: #fff !important;
+}
+
+.quickaccessmenu_TabGroupPanel .DialogButton:is(.Primary, .Destructive).gpfocus::before {
+  content: none !important;
+}
+
+/* Icon buttons on the header band (Decky's store and settings): recessed into
+   the band, silver when focused. */
+.quickaccessmenu_Title .DialogButton {
+  background: rgba(0, 0, 0, 0.16) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  color: var(--nxe-on-accent) !important;
+}
+
+.quickaccessmenu_Title .DialogButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), 0 2px 5px rgba(0, 0, 0, 0.35) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.quickaccessmenu_Title .DialogButton.gpfocus::before {
+  content: none !important;
+}
+
+/* ---------- Friends & Chat ----------
+   Steam's friends UI, read live from a Deck. It lives in the Quick Access window:
+   narrow in the panel's Friends tab, and wide (list + chat, 806px) from the Steam
+   menu's "Friends & Chat". It paints no backgrounds of its own (it sits on the
+   panel), and uses Steam's older unhashed class names. */
+
+/* Wide view: the Library's dusk sky behind the chat, the friends list as the
+   Steam menu's dark panel. Narrow view: unchanged panel. */
+.FriendsListAndChatsSteamDeck:has(> .SteamDeckChats:not(.SteamDeckChatsHidden)) {
+  background: var(--nxe-library-bg);
+}
+
+.FriendsListAndChatsSteamDeck:has(> .SteamDeckChats:not(.SteamDeckChatsHidden)) .friendlist {
+  background: var(--nxe-panel);
+  border-right: 1px solid var(--nxe-divider);
+  box-shadow: 8px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.FriendsListAndChatsSteamDeck .chatHeader,
+.FriendsListAndChatsSteamDeck .chatHistory {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+/* Tabs (favourites, friends, groups, recent chats): the open one in the accent. */
+.friendsui-container .friendlist .FriendsListTab {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.friendsui-container .friendlist .FriendsListTab.Active {
+  color: var(--nxe-accent) !important;
+}
+
+/* Group headers ("Online friends", "Offline"): focused, the silver bar and accent tab. */
+.friendsui-container .friendGroup .groupName {
+  position: relative;
+  border-radius: 4px;
+}
+
+.friendsui-container .friendGroup .groupName.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.friendsui-container .friendGroup .groupName.gpfocus .groupCount {
+  color: var(--nxe-ink-3) !important;
+}
+
+.friendsui-container .friendGroup .groupName.gpfocus::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 4px;
+  height: 50%;
+  border-radius: 0 2px 2px 0;
+  background: var(--nxe-accent);
+}
+
+/* Friend rows: the accent strip on focus, as on the panel's other rows; the
+   status colours of names (online blue, in-game green) stay Steam's. */
+.friendsui-container .friend.gpfocus {
+  border-radius: 4px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--nxe-accent) 32%, transparent) 0%, rgba(255, 255, 255, 0.05) 75%) !important;
+  box-shadow: inset 3px 0 0 var(--nxe-accent) !important;
+  animation: none !important;
+}
+
+/* Message box: recessed, like the game page's post field. */
+.friendsui-container .chatentry_chatEntryControls {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}

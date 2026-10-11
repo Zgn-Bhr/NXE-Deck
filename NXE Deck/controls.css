@@ -1,0 +1,100 @@
+/* NXE Deck: sliders and toggles (spec D.4, D.5, D.7).
+   Injected into QuickAccess and bigpicture: Steam reuses these components in
+   Settings, so restyling them in bigpicture skins Settings as well (intended).
+
+   Written against Steam's own rules for these components (tools/steamcss.py),
+   so it steers Steam's mechanisms instead of replacing them:
+   - slider fill is the track's ::before, coloured by --left-track-color;
+   - toggle fill is the rail's ::before sliding in with translateX;
+   - the toggle knob moves with translateX.
+   Steam's native control sizes (24px thumb, 38x22 toggle) already match the
+   design's proportions at Deck scale (design px / 1.5), so sizes stay native. */
+
+/* ---------- Sliders (D.4) ---------- */
+
+.gamepadslider_SliderTrack {
+  --left-track-color: var(--nxe-accent) !important;
+  height: 9px !important;
+  border-radius: 4.5px !important;
+  background-color: var(--nxe-track-off) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.gamepadslider_SliderTrackDark {
+  background-color: var(--nxe-track-off) !important;
+}
+
+/* Filled part: Steam's own ::before fill, plus the white gloss. */
+.gamepadslider_SliderTrack::before {
+  border-radius: 4.5px !important;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Border-box keeps the 24px thumb exactly where Steam's maths puts it. */
+.gamepadslider_SliderHandle {
+  box-sizing: border-box !important;
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0 !important;
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+  background: var(--nxe-sphere) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* Focus (rule 4): Steam grows a translucent border here; use an accent ring instead. */
+.gamepadslider_SliderControlAndNotches.gpfocus:not(.gamepadslider_Disabled) .gamepadslider_SliderHandle {
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 0 0 3px #fff, 0 1px 4px rgba(0, 0, 0, 0.55) !important;
+  animation: none !important;
+}
+
+.gamepadslider_SliderControlAndNotches.gamepadslider_Disabled .gamepadslider_SliderHandle {
+  background: #8b929a !important;
+}
+
+/* ---------- Toggles (D.5) ---------- */
+
+/* Off: dark recessed track. */
+.gamepaddialog_ToggleRail {
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(255, 255, 255, 0.05)), var(--nxe-track-off) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+/* On: Steam's sliding fill, now glossy accent, sliding fully out of view when off. */
+.gamepaddialog_ToggleRail::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 55%), var(--nxe-accent) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transform: translateX(-100%) !important;
+}
+
+.gamepaddialog_Toggle.gamepaddialog_On .gamepaddialog_ToggleRail::before {
+  transform: translateX(0) !important;
+}
+
+/* Knob: 18px silver sphere, 2px inset from Steam's 38x22 rail. */
+.gamepaddialog_ToggleSwitch {
+  top: 2px !important;
+  bottom: auto !important;
+  left: 2px !important;
+  width: 18px !important;
+  height: 18px !important;
+  background: var(--nxe-sphere) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45) !important;
+}
+
+.gamepaddialog_Toggle.gamepaddialog_On .gamepaddialog_ToggleSwitch {
+  transform: translateX(16px) !important; /* 38 - 18 - 2 - 2 */
+}
+
+/* Focus: Steam adds a 2px border with -2px margin; swap for an accent ring. */
+.gamepaddialog_Toggle.gpfocus:not(.gamepaddialog_Disabled) .gamepaddialog_ToggleSwitch {
+  border: 0 !important;
+  margin: 0 !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 1px 3px rgba(0, 0, 0, 0.45) !important;
+}
+
+.gamepaddialog_Toggle.gamepaddialog_Disabled {
+  opacity: 0.45;
+}

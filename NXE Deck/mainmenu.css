@@ -1,0 +1,271 @@
+/* NXE Deck: Concept C, Steam button menu as the "Guide" (tab: MainMenu).
+   Selector status: docs/SELECTORS.md.
+
+   Items are targeted as `.mainmenu_Menu [role="menuitem"]`, not `.mainmenu_Item`.
+   Steam now ships two modules with Item/ItemOuter/ItemLabel classes, and CSS
+   Loader's translation table points `mainmenu_Item` at the newer DashboardMenu
+   one, while the Steam-button menu still renders the older module's classes.
+   The ARIA role is set by the menu component itself and survives renames. */
+
+/* ---------- C.2 Panel ----------
+   The menu is its own window, 240 x 534 Deck px (read from a Deck). Steam's panel
+   is 240px wide, so it stays that wide: anything wider overflows the window, gets
+   clipped on the right, and Steam's focus scrolling then shifts the whole menu
+   sideways as the selection moves. Full height, list from just under the top bar.
+   The closed position follows the width (plus the shadow).
+
+   C.1 (the gamercard band) was dropped at the user's request (v0.7.3). */
+
+.mainmenu_Menu {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding-top: 52px !important;
+  justify-content: flex-start !important;
+  background: var(--nxe-panel) !important;
+  border-right: 1px solid var(--nxe-divider) !important;
+  box-shadow: 12px 0 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.mainmenu_Menu:not(.mainmenu_Open) {
+  transform: translateX(calc(-100% - 44px));
+}
+
+/* Folded to a 44px icon strip while a game's panel is open (in-game). Steam
+   centres the icon and drops the label; keep that, or the labels overflow the
+   strip and Steam's focus scrolling shifts it sideways. */
+.mainmenu_Menu.mainmenu_Collapsed {
+  overflow: hidden !important;
+}
+
+/* ---------- C.3 Items ---------- */
+
+/* Item wrapper: Steam fixes it at 240px and clips it, which would crop the bar's shadow;
+   with the 8px side padding the bars end 8px inside the window on both sides. */
+.mainmenu_Menu div:has(> [role='menuitem']) {
+  position: relative;
+  box-sizing: border-box;
+  width: auto !important;
+  padding: 0 8px !important;
+  overflow: visible !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.mainmenu_Menu div:has(> [role='menuitem']) + div:has(> [role='menuitem']) {
+  margin-top: 3px;
+}
+
+.mainmenu_Menu [role='menuitem'] {
+  position: relative; /* for the accent tab */
+  box-sizing: border-box;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 0 12px !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  color: var(--nxe-panel-text) !important;
+  transform: none !important; /* Steam scales the active/focused item to 1.1 */
+}
+
+/* Children: [active dot], icon, label. */
+.mainmenu_Menu [role='menuitem'] > :nth-last-child(2) {
+  color: inherit !important;
+}
+
+.mainmenu_Menu [role='menuitem'] > :nth-last-child(2) :is(svg, img) {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.mainmenu_Menu [role='menuitem'] > :last-child {
+  margin-left: 11px !important;
+  color: inherit !important;
+  font-size: 15px !important;
+  font-weight: inherit !important;
+  line-height: 20px !important;
+}
+
+.mainmenu_Menu [role='menuitem']:hover:not(.gpfocus) {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ---------- C.4 Focused item: silver glossy selection bar ----------
+   !important also beats Steam's focus keyframe animation. */
+
+.mainmenu_Menu [role='menuitem'].gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+  font-weight: 600 !important;
+  animation: none !important;
+}
+
+/* Accent tab inside the left edge of the silver bar, as in Steam's other menus
+   (dialogs.css); it follows the selection. */
+.mainmenu_Menu [role='menuitem'].gpfocus::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 4px;
+  height: 50%;
+  border-radius: 0 2px 2px 0;
+  background: var(--nxe-accent);
+}
+
+/* Current page. Steam marks it with a 10px x 50% "active dot" that doesn't follow
+   the selection, so it would look like the bar above vanishing; hide the dot and
+   tint the current page's row while focus is elsewhere. */
+.mainmenu_Menu [role='menuitem'] > [style*='height: 50%'] {
+  display: none !important;
+}
+
+.mainmenu_Menu [role='menuitem']:has(> [style*='height: 50%']):not(.gpfocus) {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ---------- C.5 Divider above Power (the last item) ---------- */
+
+.mainmenu_Menu div:has(> [role='menuitem']):not(:has(~ div > [role='menuitem'])) {
+  margin-top: 14px;
+}
+
+.mainmenu_Menu div:has(> [role='menuitem']):not(:has(~ div > [role='menuitem']))::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: var(--nxe-divider);
+}
+
+.mainmenu_RunnningAppSeparator {
+  height: 1px !important;
+  width: auto !important;
+  margin: 5px 16px !important;
+  background: var(--nxe-divider) !important;
+}
+
+/* C.6 Scrim over home: TODO on hardware. Styling the MainMenu body would dim
+   the UI even while the menu is closed, so it waits for the live DOM. */
+
+.mainmenu_Menu.mainmenu_Collapsed div:has(> [role='menuitem']) {
+  padding: 0 4px !important;
+}
+
+.mainmenu_Menu.mainmenu_Collapsed [role='menuitem'] {
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+.mainmenu_Menu.mainmenu_Collapsed [role='menuitem'] > :last-child {
+  display: none !important; /* label */
+}
+
+/* ---------- In-game: the running game's panel ----------
+   Selecting the running game folds the menu and opens the game's panel beside it
+   (module mainmenuapprunning; CSS Loader knows it only by generated names,
+   _xfZ18oWU_…). Read live from a Deck: ScrollMask (the panel, #0e141b) >
+   AppRunningControls > [NavigationColumn (logo + rows: return to game, controller
+   settings, achievements, guides, notes, …, exit), AppColumn (preview of the
+   focused row)]. Stock: a blue-tinted column with a radial glow, rows that scale
+   up and screen-blend when focused, and a blue bar on the current one. */
+
+._xfZ18oWU_ScrollMask._xfZ18oWU_Visible {
+  background: var(--nxe-library-bg) !important;
+}
+
+/* Rows column: the Steam menu's dark panel, without Steam's glow. */
+._xfZ18oWU_NavigationColumn {
+  background: var(--nxe-panel) !important;
+  border-right: 1px solid var(--nxe-divider);
+  box-shadow: 8px 0 20px rgba(0, 0, 0, 0.35);
+}
+
+._xfZ18oWU_NavigationColumn::before {
+  display: none !important;
+}
+
+._xfZ18oWU_NavigationMenuItem {
+  position: relative;
+  margin: 0 8px;
+  border-radius: 4px;
+  transform: none !important;
+}
+
+/* Focused: the silver bar with the accent tab, like the Steam menu. */
+._xfZ18oWU_NavigationMenuItem.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+  mix-blend-mode: normal !important;
+  animation: none !important;
+  outline: none !important;
+}
+
+._xfZ18oWU_NavigationMenuItem.gpfocus::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 4px;
+  height: 50%;
+  border-radius: 0 2px 2px 0;
+  background: var(--nxe-accent);
+}
+
+/* The row whose preview is showing: a faint tint instead of Steam's blue bar. */
+._xfZ18oWU_NavigationMenuItem._xfZ18oWU_Active:not(.gpfocus) {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+._xfZ18oWU_NavigationMenuItem ._xfZ18oWU_ActiveDot {
+  display: none !important;
+}
+
+/* Preview side: a light wash over the sky instead of 90% navy. */
+._xfZ18oWU_AppColumn {
+  background: rgba(10, 12, 14, 0.25) !important;
+}
+
+._xfZ18oWU_AppColumn._xfZ18oWU_FocusedColumn {
+  background: rgba(10, 12, 14, 0.35) !important;
+}
+
+._xfZ18oWU_AppColumn :is(h1, h2, h3, .controllerconfiguratorsummary_Title, .controllerconfiguratorsummary_TitleLabel) {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* The controller layout preview (View Layout's in-game variant). */
+._xfZ18oWU_AppColumn .controllerconfiguratorsummary_ControlsListSection .controllerconfiguratorsummary_Title {
+  color: rgba(255, 255, 255, 0.82) !important;
+  letter-spacing: 0.1em !important;
+}
+
+._xfZ18oWU_AppColumn .controllerconfiguratorsummary_DirectAccessButton:is(:focus, .gpfocus) {
+  outline: none !important;
+  border-color: transparent !important;
+  border-radius: 4px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 60%),
+    color-mix(in srgb, var(--nxe-accent) 50%, rgba(14, 17, 20, 0.85)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nxe-accent) 70%, #fff), 0 3px 8px rgba(0, 0, 0, 0.35) !important;
+}
+
+._xfZ18oWU_AppColumn .DialogButton {
+  border: none !important;
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+._xfZ18oWU_AppColumn .DialogButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+

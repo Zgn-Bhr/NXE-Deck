@@ -1,0 +1,190 @@
+/* NXE Deck option: debug outlines. "Debug outlines" checkbox, off by default.
+   For hardware testing without a debugger: every element the theme targets gets a
+   dashed outline, so a missing outline means that selector did not match.
+   Cyan = Steam menu (C), magenta = Quick Access + controls (D) + pop-up menus, orange = Home (B),
+   green = Library and game pages.
+   Checklist of what should be outlined: docs/TESTING.md. */
+
+.mainmenu_Menu,
+.mainmenu_Menu [role='menuitem'],
+.mainmenu_RunnningAppSeparator {
+  outline: 2px dashed #00e5ff !important;
+  outline-offset: -2px !important;
+}
+
+.quickaccessmenu_QuickAccessMenu,
+.quickaccessmenu_Tabs,
+.quickaccessmenu_Tab,
+.quickaccessmenu_Title,
+.quickaccessmenu_TabGroupPanel .gamepaddialog_FieldLabel,
+.gamepaddialog_Toggle,
+.gamepadslider_SliderTrack,
+.gamepadslider_SliderHandle,
+.quickaccessmenu_TabGroupPanel .DialogButton,
+.gamepadcontextmenu_contextMenu,
+.gamepadcontextmenu_contextMenuItem {
+  outline: 2px dashed #ff2bd6 !important;
+  outline-offset: -2px !important;
+}
+
+.gamepadhome_ScrollArea,
+.gamepadhomerecentgames_RecentGamesHeaderLabel,
+.appportrait_LibraryItemBox.appportrait_InRecentGames,
+.basicgamecarousel_CarouselGameLabel,
+.basicgamecarousel_BasicGameCarouselItemMediaContainer,
+.gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage,
+.gamepadhome_TabbedContent .gamepadtabbedpage_Tab,
+.gamepadhomewhatsnew_EventInfo,
+.gamepadhomewhatsnew_EventType,
+.header_Header,
+.footer_BasicFooter {
+  outline: 2px dashed #ff9500 !important;
+  outline-offset: -2px !important;
+}
+
+.gamepadlibrary_GamepadLibrary,
+.gamepadlibrary_GamepadLibrary .gamepadtabbedpage_Tab,
+.gamepadlibrary_GamepadLibrary .gamepadlibrary_AppGridFilterHeader,
+.gamepadlibrary_GamepadLibrary .appgrid_AppGridSectionHeader,
+.gamepadlibrary_GamepadLibrary .appportrait_LibraryItemBox,
+.gamepadlibrary_GamepadLibrary .allcollections_Collection,
+.appdetails_Container .appdetails_ScrollContainer,
+.appdetails_Container .basicappdetailssectionstyler_AppActionButton,
+.appdetails_Container .appdetailsplaysection_MenuButton,
+.appdetails_Container .gamepadtabbedpage_Tab,
+.appdetails_Container .appactivityday_PartnerEvent,
+.appdetails_Container .DialogButton,
+.appdetails_Container .appdetailscommunityfeed_CommunityItem,
+.controllerconfigurator_ControllerConfiguratorMain .gamepaddialog_Field,
+.controllerconfigurator_ControllerConfiguratorMain .DialogButton {
+  outline: 2px dashed #3dff6e !important;
+  outline-offset: -2px !important;
+}
+
+/* ----- Home tab pages: print the live DOM facts as labels -----
+   For a screenshot-only diagnosis without a debugger. Fixed above the footer on
+   the right, so the tab row can't cover them. Per page, in DOM order: its
+   position and transition classes (hashed; decode with the mapping), its tabpanel
+   id, and "HIDDEN BY NXE" if the theme hides it. The tab row says which tab is
+   selected; "TAB CONTENTS" confirms the container itself matched. */
+
+.gamepadhome_TabbedContent .gamepadtabbedpage_TabContents {
+  counter-reset: nxe-page;
+  outline: 2px dashed #ffe600 !important;
+}
+
+.gamepadhome_TabbedContent .gamepadtabbedpage_TabContents::after {
+  content: 'TAB CONTENTS';
+  position: fixed;
+  z-index: 99999;
+  top: auto;
+  left: auto;
+  right: 8px;
+  padding: 1px 4px;
+  background: #000;
+  color: #ffe600;
+  font: 9px/1.3 monospace !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  white-space: nowrap;
+  visibility: visible !important;
+  pointer-events: none;
+  bottom: 192px;
+}
+
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition {
+  counter-increment: nxe-page;
+}
+
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition::before {
+  content: 'page ' counter(nxe-page) ': ' attr(class);
+  position: fixed;
+  z-index: 99999;
+  top: auto;
+  left: auto;
+  right: 8px;
+  padding: 1px 4px;
+  background: #000;
+  color: #ffe600;
+  font: 9px/1.3 monospace !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  white-space: nowrap;
+  visibility: visible !important;
+  pointer-events: none;
+}
+
+.gamepadhome_TabbedContent [role='tabpanel']::before {
+  content: 'tabpanel ' attr(id);
+  position: fixed;
+  z-index: 99999;
+  top: auto;
+  left: auto;
+  right: 8px;
+  padding: 1px 4px;
+  background: #000;
+  color: #ffe600;
+  font: 9px/1.3 monospace !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  white-space: nowrap;
+  visibility: visible !important;
+  pointer-events: none;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="WhatsNew"]) [role="tabpanel"]:not([id$="WhatsNew_Content"])::after,
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="Friends"]) [role="tabpanel"]:not([id$="Friends_Content"])::after,
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="Recommended"]) [role="tabpanel"]:not([id$="Recommended_Content"])::after {
+  content: 'HIDDEN BY NXE';
+  position: fixed;
+  z-index: 99999;
+  top: auto;
+  left: auto;
+  right: 8px;
+  padding: 1px 4px;
+  background: #000;
+  color: #ffe600;
+  font: 9px/1.3 monospace !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  white-space: nowrap;
+  visibility: visible !important;
+  pointer-events: none;
+  color: #ff5050;
+}
+
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(1)::before { bottom: 162px; }
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(1) [role='tabpanel']::before { bottom: 148px; }
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(1) [role='tabpanel']::after { bottom: 134px; }
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(2)::before { bottom: 118px; }
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(2) [role='tabpanel']::before { bottom: 104px; }
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(2) [role='tabpanel']::after { bottom: 90px; }
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(3)::before { bottom: 74px; }
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(3) [role='tabpanel']::before { bottom: 60px; }
+.gamepadhome_TabbedContent .gamepadtabbedpage_ContentTransition:nth-child(3) [role='tabpanel']::after { bottom: 46px; }
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="WhatsNew"]) .gamepadtabbedpage_TabHeaderRowWrapper::after {
+  content: 'SELECTED TAB: WhatsNew';
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="Friends"]) .gamepadtabbedpage_TabHeaderRowWrapper::after {
+  content: 'SELECTED TAB: Friends';
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="Recommended"]) .gamepadtabbedpage_TabHeaderRowWrapper::after {
+  content: 'SELECTED TAB: Recommended';
+}
+
+.gamepadhome_TabbedContent .gamepadtabbedpage_TabHeaderRowWrapper::after {
+  position: absolute;
+  top: 100%;
+  left: 4px;
+  padding: 1px 4px;
+  background: #000;
+  color: #ffe600;
+  font: 9px/1.3 monospace !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  white-space: nowrap;
+  pointer-events: none;
+}

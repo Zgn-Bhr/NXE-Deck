@@ -1,0 +1,36 @@
+/* NXE Deck option: "Background: Silver studio" (the spec's original look, §3).
+   On a light sky the header and ghost labels need dark ink instead of white. */
+
+:root {
+  --nxe-home-bg: var(--nxe-studio);
+  --nxe-ghost-1: #575e63;
+  --nxe-ghost-2: #62696f;
+  /* The Library keeps Steam's white text, so it gets a graphite studio instead. */
+  --nxe-library-bg:
+    radial-gradient(ellipse 60% 45% at 40% 25%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, #4a5056 0%, #33383d 55%, #25292d 100%);
+}
+
+/* Dark ink applies only while the home view is mounted, and brings its own faint
+   light backing so it stays readable if Steam keeps home mounted behind another page. */
+body:has(.gamepadhome_ScrollArea) .header_Header {
+  color: var(--nxe-ink-2) !important;
+  background: linear-gradient(180deg, rgba(238, 240, 242, 0.8), rgba(238, 240, 242, 0)) !important;
+  text-shadow: none !important;
+}
+
+body:has(.gamepadhome_ScrollArea) .header_Header * {
+  color: inherit !important;
+}
+
+body:has(.gamepadhome_ScrollArea) .header_Header svg {
+  color: var(--nxe-ink-2) !important;
+  filter: none !important;
+}
+
+/* Steam fades in dark glass behind the header as the page scrolls; make it light glass. */
+body:has(.gamepadhome_ScrollArea) .header_Header::before {
+  background-color: rgba(240, 242, 244, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}

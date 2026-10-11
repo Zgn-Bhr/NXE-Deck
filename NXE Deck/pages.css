@@ -1,0 +1,196 @@
+/* NXE Deck: Steam's other pages (tab: bigpicture). "Other pages" checkbox, on by default.
+   Not part of the design handoff: Downloads, Settings (and every other paged
+   settings screen, such as a game's Properties), Media and Friends & Chat get the
+   Library's dusk sky, dark glossy cards, keys and accent focus. Steam's text
+   stays white throughout. */
+
+/* ---------- Downloads ----------
+   Read live from a Deck: DownloadsPage > [active download (hero art), TopBar,
+   ItemLists > Section (Up Next, Scheduled, Completed) > SectionTitle + rows]. */
+
+.downloads_DownloadsPage {
+  background: var(--nxe-library-bg) !important;
+}
+
+/* The thin line under the active download becomes the accent line. */
+.downloads_DownloadsPage .downloads_TopBar {
+  background: color-mix(in srgb, var(--nxe-accent) 75%, transparent) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  min-height: 1px;
+}
+
+.downloads_DownloadsPage .downloads_SectionTitle {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+.downloads_DownloadsPage :is(.downloads_Count, .downloads_AutoUpdateHours, .downloads_SectionItemStatus) {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.downloads_DownloadsPage .downloads_Rule {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05)) !important;
+  height: 1px !important;
+}
+
+.downloads_DownloadsPage .downloads_EmptyTransfers {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Rows: dark glossy cards; the focused row gets the accent strip and edge. Steam
+   only paints the focused row (15% white). */
+.downloads_DownloadsPage .downloads_SectionItem {
+  border-radius: 4px;
+  background: var(--nxe-card) !important;
+  box-shadow: var(--nxe-card-shadow);
+}
+
+.downloads_DownloadsPage .downloads_SectionItemWrapper:is(.gpfocus, .gpfocuswithin) .downloads_SectionItem {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--nxe-accent) 32%, transparent) 0%, rgba(255, 255, 255, 0.05) 75%),
+    rgba(14, 17, 20, 0.6) !important;
+  box-shadow: inset 3px 0 0 var(--nxe-accent), var(--nxe-card-shadow);
+}
+
+.downloads_DownloadsPage .downloads_SectionList [role='listitem'] + [role='listitem'] .downloads_SectionItemWrapper {
+  margin-top: 4px;
+}
+
+.downloads_DownloadsPage .DialogButton {
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+.downloads_DownloadsPage .DialogButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+/* ---------- Settings (and other paged settings screens) ----------
+   gamepadpagedsettings: PagedSettingsDialog > [PageListColumn (left list),
+   content]. Stock: flat #0e141b, a #2b2d33 list, and a blue gradient + blue edge
+   on the active and focused pages. The page sits below the top bar, so its
+   GamepadPage is painted too and the sky runs behind the (transparent) bar. */
+
+.gamepadpage_GamepadPage:has(.gamepadpagedsettings_PagedSettingsDialog) {
+  background: var(--nxe-library-bg) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog {
+  background: var(--nxe-library-bg) !important;
+}
+
+/* Left list: the Steam menu's dark panel. */
+.gamepadpagedsettings_PagedSettingsDialog .gamepadpagedsettings_PagedSettingsDialog_PageListColumn {
+  background: var(--nxe-panel) !important;
+  border-right: 1px solid var(--nxe-divider);
+  box-shadow: 8px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .gamepadpagedsettings_PagedSettingsDialog_PageListItem {
+  position: relative;
+  margin: 1px 8px;
+  border-left: none !important;
+  border-radius: 4px;
+  color: var(--nxe-panel-text) !important;
+}
+
+/* The page being shown: a faint accent tint. */
+.gamepadpagedsettings_PagedSettingsDialog .gamepadpagedsettings_PagedSettingsDialog_PageListItem.gamepadpagedsettings_Active:not(:focus, .gpfocus) {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--nxe-accent) 30%, transparent) 0%, transparent 100%) !important;
+}
+
+/* Focused: the Steam menu's silver bar with its accent tab. */
+.gamepadpagedsettings_PagedSettingsDialog .gamepadpagedsettings_PagedSettingsDialog_PageListItem:is(:focus, .gpfocus) {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .gamepadpagedsettings_PagedSettingsDialog_PageListItem:is(:focus, .gpfocus)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 4px;
+  height: 50%;
+  border-radius: 0 2px 2px 0;
+  background: var(--nxe-accent);
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .gamepadpagedsettings_PagedSettingsDialog_PageListItem:is(:focus, .gpfocus) :is(.gamepadpagedsettings_PageListItem_Icon, .gamepadpagedsettings_PageListItem_Title) {
+  color: var(--nxe-ink) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .gamepadpagedsettings_Separator {
+  background: var(--nxe-divider) !important;
+}
+
+/* Content: titles readable on the sky, rows as dark glossy cards, the focused row
+   with the accent strip, buttons and dropdowns as keys. */
+.gamepadpagedsettings_PagedSettingsDialog :is(.gamepadpagedsettings_PagedSettingsDialog_Title, .SettingsDialogSubHeader, .DialogSubHeader, h2, h3) {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .gamepaddialog_Field {
+  border-radius: 4px !important;
+  background: var(--nxe-card) !important;
+  box-shadow: var(--nxe-card-shadow) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .gamepaddialog_Field.gamepaddialog_HighlightOnFocus:is(.gpfocus, .gpfocuswithin) {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--nxe-accent) 30%, transparent) 0%, rgba(255, 255, 255, 0.05) 75%),
+    rgba(14, 17, 20, 0.6) !important;
+  box-shadow: inset 3px 0 0 var(--nxe-accent), var(--nxe-card-shadow) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .gamepaddialog_FieldDescription {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .DialogButton {
+  border: none !important;
+  border-radius: 4px !important;
+  background: var(--nxe-key) !important;
+  box-shadow: var(--nxe-key-shadow) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .DialogButton.gpfocus {
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), var(--nxe-silver-bar-shadow) !important;
+  color: var(--nxe-ink) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .DialogButton.Primary.gpfocus {
+  background: var(--nxe-band) !important;
+  box-shadow: 0 0 0 2px #fff, var(--nxe-band-shadow) !important;
+  color: var(--nxe-on-accent) !important;
+}
+
+/* ---------- Media (screenshots and recordings) ----------
+   Read live from a Deck: a virtual grid (ScreenshotList > rows > ListItem with the
+   image) on the app's root background, each tile over a blurred, saturated copy of
+   its image as a glow. Focus is Steam's focus ring (themed in dialogs.css).
+   These classes have no readable module_Name in CSS Loader's table, only its
+   stable generated names (_mP9RJOCZ_…, _wEPhzApt_…), which it translates the same way. */
+
+.gamepadui_BasicHome:has(._mP9RJOCZ_ScreenshotList) {
+  background: var(--nxe-library-bg) !important;
+}
+
+._mP9RJOCZ_ScreenshotList ._wEPhzApt_BackgroundImageGlow {
+  display: none !important;
+}
+
+._mP9RJOCZ_ScreenshotList ._wEPhzApt_ListItem {
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 5px 12px rgba(0, 0, 0, 0.4);
+}
+
+._mP9RJOCZ_ScreenshotList ._wEPhzApt_ListItemThumbnailImg {
+  border-radius: 3px;
+}

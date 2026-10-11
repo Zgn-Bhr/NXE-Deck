@@ -1,0 +1,410 @@
+/* NXE Deck: Concept B, Home screen skin (tab: bigpicture).
+   Selector status: docs/SELECTORS.md.
+   Sizes are Deck CSS px (854x534, shown at 1.5x): design px / 1.5.
+
+   Safety rule for this file: every dark-ink rule sits under the element that
+   paints the background (.gamepadhome_ScrollArea), so if that element ever stops
+   matching, the text stays Steam's white-on-dark instead of turning dark-on-dark. */
+
+/* ---------- B.1 Page background ----------
+   ScrollArea is the home's vertical scroller; fixed attachment keeps the sky and
+   floor still while it scrolls. --nxe-home-bg is set by the "Background" option. */
+
+.gamepadhome_ScrollArea {
+  background: var(--nxe-home-bg) !important;
+  background-attachment: fixed !important;
+}
+
+/* Stock blurred game art and the colour glow behind the focused capsule. */
+.gamepadhomerecentgames_RecentGamesBackgroundContainer,
+.basicgamecarousel_CarouselCapsuleBackgroundGlow {
+  display: none !important;
+}
+
+/* ---------- B.3 "Recent Games" header: dark glossy pill ----------
+   Steam shows this label at 70% opacity and fades it out after 8 seconds;
+   the NXE header stays. */
+
+.gamepadhome_ScrollArea .gamepadhomerecentgames_RecentGamesHeaderLabel {
+  position: relative;
+  padding: 1px 19px 3px 9px !important;
+  border-radius: 5px;
+  background: var(--nxe-pill) !important;
+  box-shadow: var(--nxe-pill-shadow) !important;
+  color: #fff !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important; /* Steam's shorthand is invalid, so it would animate every property */
+}
+
+/* ---------- B.4 / B.5 Carousel capsules ----------
+   First capsule is the "featured" landscape one (absent while a game runs);
+   the rest are portrait. Depth (B.5) is options/depth.css. */
+
+.gamepadhome_ScrollArea .appportrait_LibraryItemBox.appportrait_InRecentGames {
+  border-radius: 3px !important;
+  outline: 1px solid rgba(255, 255, 255, 0.4);
+  outline-offset: -1px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.22) !important;
+  -webkit-box-reflect: below 3px linear-gradient(transparent 86%, rgba(255, 255, 255, 0.32));
+}
+
+/* Room under the capsules. ReactVirtualized clips its inner container to the row
+   (capsule + 52px label strip), which would crop the dropped label; the grid
+   itself still clips at its own bottom edge, so nothing spills onto the page. */
+.gamepadhome_ScrollArea .gamepadhomerecentgames_RecentGamesInnerContainer .ReactVirtualized__Grid__innerScrollContainer {
+  overflow: visible !important;
+}
+
+/* Focus (§3): white rim and a deeper shadow, plus the accent ring used for every
+   other focus in the theme (a white rim alone is faint on silver; rule 4).
+   !important beats Steam's outline keyframes. */
+.gamepadhome_ScrollArea .appportrait_LibraryItemBox.appportrait_InRecentGames:is(.gpfocus, :focus) {
+  outline: 2px solid #fff !important;
+  outline-offset: -2px !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 11px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Separator shown after a running game: stock is a light line, invisible on silver. */
+.gamepadhome_ScrollArea .basicgamecarousel_FeaturedSeparator {
+  background: linear-gradient(to bottom, rgba(43, 48, 53, 0), rgba(43, 48, 53, 0.35), rgba(43, 48, 53, 0)) !important;
+}
+
+/* "Go to Library", the last tile in the carousel: stock is a grey box. */
+.gamepadhome_ScrollArea .basicgamecarousel_BasicGameCarouselItem .basicgamecarousel_TextBoxCarouselContents {
+  box-sizing: border-box;
+  border-radius: 3px;
+  background: var(--nxe-silver-bar) !important;
+  box-shadow: var(--nxe-silver-bar-shadow);
+  color: var(--nxe-ink) !important;
+  font-weight: 600;
+  text-shadow: none;
+}
+
+.gamepadhome_ScrollArea .basicgamecarousel_BasicGameCarouselItem .basicgamecarousel_TextBoxCarouselContents.gpfocus {
+  outline: 2px solid #fff !important;
+  outline-offset: -2px !important;
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 11px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ---------- B.7 "NEW TO LIBRARY" chip ---------- */
+
+.gamepadhome_ScrollArea .appportrait_InRecentGames .appportrait_AppPortraitBanner:not(.appportrait_ComingSoonBanner) {
+  background: var(--nxe-new) !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  border-radius: 2px !important;
+}
+
+/* ---------- B.8 Focused title + meta line ----------
+   Steam shows the label under the focused capsule. It is pushed down with the
+   separate `translate` property so Steam's own transform animation still runs. */
+
+.gamepadhome_ScrollArea .basicgamecarousel_CarouselGameLabelWrapper {
+  translate: 0 var(--nxe-label-drop, 24px); /* clears the ~28px reflection */
+}
+
+.gamepadhome_ScrollArea .basicgamecarousel_CarouselGameLabel {
+  color: var(--nxe-ink) !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+}
+
+.gamepadhome_ScrollArea .basicgamecarousel_CarouselGameLabel * {
+  color: inherit;
+  text-shadow: none !important;
+}
+
+.gamepadhome_ScrollArea .basicgamecarousel_SubMessage {
+  color: var(--nxe-ink-3) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.gamepadhome_ScrollArea .basicgamecarousel_Play .basicgamecarousel_ActionIcon {
+  color: var(--nxe-accent-dark) !important;
+}
+
+.gamepadhome_ScrollArea .basicgamecarousel_SubMessage.basicgamecarousel_FriendsInGame {
+  color: var(--nxe-accent-dark) !important;
+}
+
+/* ---------- B.9 Lower section band ----------
+   Steam pulls this section up 30px over the carousel's bottom padding; start it
+   below the carousel instead so the reflection and label stay visible. */
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent {
+  margin-top: 8px !important;
+}
+
+/* Nearly opaque: the background is fixed, so once the page scrolls down to the
+   news this panel is what keeps tabs and cards on silver instead of the sky. */
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage {
+  background: linear-gradient(180deg, rgba(246, 247, 248, 0.92) 0%, rgba(234, 236, 238, 0.97) 100%) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Once scrolled, Steam frosts the tab row in dark glass; frost it light instead. */
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_TabHeaderRowWrapper::before {
+  background: rgba(240, 242, 244, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ---------- B.10 Tabs (scoped to home; tabbed pages elsewhere stay dark) ----------
+   L1/R1 switch tabs, including from the news cards. Steam's bumper glyphs at
+   the row's ends are white images: invert them for the light band, and keep
+   them faintly visible so the shortcut is discoverable. */
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_Tab {
+  height: auto !important;
+  max-height: none !important;
+  padding: 6px 14px !important;
+  border-radius: 15px !important;
+  background: transparent !important;
+  color: var(--nxe-ink-2) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_Tab.gamepadtabbedpage_Selected {
+  background: var(--nxe-pill) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 3px 7px rgba(0, 0, 0, 0.2) !important;
+  color: #fff !important;
+}
+
+/* Focus: accent ring over whichever fill the tab has (Steam's white when unselected). */
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_Tab.gpfocus {
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 0 0 3px #fff, 0 3px 7px rgba(0, 0, 0, 0.2) !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_Tab.gpfocus:not(.gamepadtabbedpage_Selected) {
+  background: #fff !important;
+  color: var(--nxe-ink) !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_TabCount {
+  color: inherit !important;
+}
+
+/* Friends count badge */
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_TabCountBadge {
+  padding: 1px 6px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 60%), var(--nxe-accent) !important;
+  color: var(--nxe-on-accent) !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_Glyphs {
+  opacity: 0.55 !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_Glyphs.gamepadtabbedpage_Show {
+  opacity: 1 !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_Glyphs img {
+  filter: invert(1);
+}
+
+/* ---------- B.11 News cards ----------
+   Stock: OuterWrapper > [EventType label, EventPreviewContainer > [EventImageWrapper,
+   EventInfo > [date, Title, GameIconAndName]]]. EventSummary is left alone: it is
+   Steam's white focus overlay on the darkened image. */
+
+.gamepadhome_ScrollArea .gamepadhomewhatsnew_EventType {
+  color: var(--nxe-info) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.07em !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhomewhatsnew_EventType.gamepadhomewhatsnew_EventType28 {
+  color: var(--nxe-accent-dark) !important; /* 28 = News */
+}
+
+/* The card: Steam's focusable EventPreviewContainer (image wrapper + info panel). */
+.gamepadhome_ScrollArea .gamepadhomewhatsnew_EventPreviewContainer {
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14) !important;
+}
+
+/* Focus: keep Steam's darkened image + summary; add an accent ring and underline. */
+.gamepadhome_ScrollArea .gamepadhomewhatsnew_EventPreviewContainer.gpfocus {
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 7px 14px rgba(0, 0, 0, 0.22) !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhomewhatsnew_EventInfo {
+  background: #fff !important;
+  color: var(--nxe-ink) !important;
+  padding: 7px 9px 9px !important;
+}
+
+.gamepadhome_ScrollArea .gpfocus .gamepadhomewhatsnew_EventInfo {
+  background: #fff !important;
+  box-shadow: inset 0 -3px 0 var(--nxe-accent);
+}
+
+/* First child of the info panel is the event date ("POSTED ..."). */
+.gamepadhome_ScrollArea .gamepadhomewhatsnew_EventInfo > :first-child {
+  color: var(--nxe-ink-4) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhomewhatsnew_Title {
+  color: var(--nxe-ink) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhomewhatsnew_GameName {
+  color: var(--nxe-ink-4) !important;
+}
+
+/* ---------- Tab page switching ----------
+   Safeguard. Steam's tab pages sit in a react-transition-group TransitionGroup,
+   which keeps the outgoing page in the DOM (usually on top) until its CSS
+   fade-out reports done. Don't depend on that: Steam labels every page
+   (role=tabpanel, id "<parent><TabId>_Content") and every tab (role=tab,
+   aria-selected, id "<parent><TabId>"), so pages that don't belong to the
+   selected tab are hidden and the selected tab's page slides in on its own.
+   Home tab ids: WhatsNew, Friends, Recommended.
+   (A Deck that "didn't switch tabs" turned out to be Steam itself: the home keeps
+   its tab in router history state, and there the update never reached the view,
+   with or without themes. CSS can't fix that; see docs/PLAN.md.) */
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="WhatsNew"]) [role="tabpanel"]:not([id$="WhatsNew_Content"]) {
+  visibility: hidden !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="WhatsNew"]) .gamepadtabbedpage_ContentTransition:has([role="tabpanel"][id$="WhatsNew_Content"]) {
+  animation: nxe-tab-in 0.3s cubic-bezier(0, 0, 0.1, 1) both;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="Friends"]) [role="tabpanel"]:not([id$="Friends_Content"]) {
+  visibility: hidden !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="Friends"]) .gamepadtabbedpage_ContentTransition:has([role="tabpanel"][id$="Friends_Content"]) {
+  animation: nxe-tab-in 0.3s cubic-bezier(0, 0, 0.1, 1) both;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="Recommended"]) [role="tabpanel"]:not([id$="Recommended_Content"]) {
+  visibility: hidden !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage:has(.gamepadtabbedpage_TabHeaderRowWrapper [role="tab"][aria-selected="true"][id$="Recommended"]) .gamepadtabbedpage_ContentTransition:has([role="tabpanel"][id$="Recommended_Content"]) {
+  animation: nxe-tab-in 0.3s cubic-bezier(0, 0, 0.1, 1) both;
+}
+
+@keyframes nxe-tab-in {
+  from {
+    opacity: 0;
+    transform: translateX(4%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Text on the light panel ----------
+   Steam's home sections are designed white-on-dark. Make dark ink the default for
+   anything on the panel, keep the news focus summary (white over a darkened
+   image) white, and fix the What's New sections below the news row. */
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_TabContentsScroll {
+  color: var(--nxe-ink);
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadhomewhatsnew_EventSummary {
+  color: #fff !important;
+}
+
+/* Section headings: Steam's heading component renders real <h2> elements, so this
+   also covers sections not listed here; the named ones are belt and braces. */
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadtabbedpage_TabContentsScroll h2,
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent :is(.recentlycompleted_Header, .homestorecarousel_Header, .marketingmessages_Header) {
+  color: var(--nxe-ink) !important;
+  text-shadow: none !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent :is(.homestorecarousel_SubHeader, .gamepadhomewhatsnew_Empty) {
+  color: var(--nxe-ink-3) !important;
+}
+
+/* "Recently completed" tiles: translucent white in stock; dark glossy here so
+   their white game names and grey patch notes stay readable untouched. */
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .recentlycompleted_RecentlyCompletedItem {
+  border-radius: 4px;
+  background: var(--nxe-panel) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(0, 0, 0, 0.18) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .recentlycompleted_RecentlyCompletedItem:is(.gpfocus, :focus) {
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 7px 14px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ---------- Friends and Recommended tabs ----------
+   Steam draws these white on translucent tiles, which vanish on the light panel.
+   Headers get dark ink; tiles become dark glossy cards so Steam's own white text
+   and the friends' online/in-game colours inside them stay readable untouched. */
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent :is(.gamepadhomefriends_FriendsHeader, .gamepadhomerecommended_PlayNextCarouselTitle) {
+  color: var(--nxe-ink) !important;
+  text-shadow: none !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadhomerecommended_PlayNextCarouselSubHeading {
+  color: var(--nxe-ink-3) !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent :is(.gamepadhomefriends_FavoriteFriend, .gamepadhomefriends_GoToFriends, .gamepadhomefriends_InGameGame) {
+  border-radius: 4px;
+  background: var(--nxe-panel) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(0, 0, 0, 0.18) !important;
+  color: var(--nxe-panel-text) !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent :is(.gamepadhomefriends_FavoriteFriend, .gamepadhomefriends_GoToFriends, .gamepadhomefriends_InGameGame):is(.gpfocus, :focus) {
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 7px 14px rgba(0, 0, 0, 0.25) !important;
+}
+
+.gamepadhome_ScrollArea .gamepadhome_TabbedContent .gamepadhomefriends_InGameGame .gamepadhomefriends_FriendsPlaying {
+  color: var(--nxe-accent) !important;
+}
+
+/* ---------- B.12 Top-right bar (home only) ----------
+   Over the green sky Steam's own white icons and clock are right; a soft shadow
+   keeps them legible over bright bokeh or a custom wallpaper. The silver
+   background option switches them to dark ink (options/bg-silver.css). */
+
+body:has(.gamepadhome_ScrollArea) .header_Header {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+body:has(.gamepadhome_ScrollArea) .header_Header svg {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+
+body:has(.gamepadhome_ScrollArea) .header_CurrentUserAvatar {
+  border-radius: 5px;
+  box-shadow: 0 0 0 2px var(--nxe-accent), 0 0 0 3px #fff, 0 2px 5px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* B.13 Footer: the light legend bar is the "Light footer" option (options/footer.css). */
