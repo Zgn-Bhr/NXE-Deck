@@ -136,6 +136,12 @@ The theme is plain CSS in [`NXE Deck/`](NXE%20Deck/). It uses Steam's readable c
 | `tools/deckdom.mjs`, `tools/cdp.mjs`, `tools/probe.js` | Read-only inspection of the live Steam UI over the CEF debugger |
 | `docs/` | Selector map, hardware test checklist, build notes and reference renders |
 
+## Support
+
+NXE Deck is free, and every option is included. There are no paid features, supporter editions or early access, and there never will be.
+
+If it brightened up your Deck and you'd like to say thanks, you can [buy me a coffee](https://buymeacoffee.com/zgnbhr). It's a tip, not a purchase: completely optional, and it gets you nothing extra. Starring the repo, reporting bugs and sharing it with friends help just as much.
+
 ## Credits and licence
 
 - Theme code: [MIT](LICENSE).
