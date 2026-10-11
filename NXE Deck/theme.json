@@ -2,7 +2,7 @@
   "name": "NXE Deck",
   "author": "Zgn-Bhr",
   "version": "v1.0.0",
-  "description": "A tribute to the Xbox 360 New Xbox Experience: lime sky over a silver floor with reflections, a receding game blade, a Guide-style Steam menu, a mini-blade Quick Access menu, and a matching Library, game pages, Downloads, Settings, Media and Friends. Sliders and toggles are restyled globally, so Settings picks up the glossy look too. Uses Open Sans (SIL OFL 1.1); no Microsoft assets.",
+  "description": "A tribute to the Xbox 360 New Xbox Experience: lime sky over a silver floor with reflections, a receding game blade, a Guide-style Steam menu, a mini-blade Quick Access menu, and a matching Library, game pages, Downloads, Settings, Media and Friends. Sliders and toggles are restyled globally, so Settings picks up the glossy look too. Case bands \"By source\" setup and help: github.com/Zgn-Bhr/NXE-Deck. Uses Open Sans (SIL OFL 1.1); no Microsoft assets.",
   "target": ["Home", "Library", "System-Wide"],
   "manifest_version": 9,
   "inject": {
